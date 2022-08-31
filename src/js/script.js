@@ -60,32 +60,6 @@ document.querySelector(".creation-levels").onclick = goToSucessPageForm;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function backToMain() {
   document.querySelector(".main-screen").classList.remove("hidden");  
   document.querySelector(".quizz-screen").classList.add("hidden"); 

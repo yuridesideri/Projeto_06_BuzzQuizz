@@ -23,7 +23,7 @@
 
   <main>
 
-    <section class="main-screen hidden">  <!-- Alterar antes de terminar o código-->
+    <section class="main-screen">
 
       <div class="my-quizzes">
         <div class="my-quizzes__zero-quizzes">
@@ -82,7 +82,7 @@
       </div>
     </section>
 
-    <section class="quizz-screen end-screen-update-space">
+    <section class="quizz-screen end-screen-update-space hidden">
       <section class="quizz-header">
         <p class="quizz-header__title">Title goes here!</p>
         <div class="quizz-header-opacity">
@@ -164,7 +164,7 @@
       </section>
     </section>
     
-    <section class="creation-screen">
+    <section class="creation-screen hidden">
       <form>
         <fieldset class="creation-basic-info">
           <legend>Comece pelo começo</legend>
@@ -293,8 +293,8 @@
         <div class="created-quiz-image">
           <p>Título do Quizz</p>
         </div>
-        <button class="open-quiz-button">Acessar Quiz</button>
-        <button class="homepage-button">Voltar para home</button>
+        <button onclick="enterQuizz()" class="open-quiz-button">Acessar Quiz</button>
+        <button onclick="backToMain()" class="homepage-button">Voltar para home</button>
       </div>
 
     </section>
