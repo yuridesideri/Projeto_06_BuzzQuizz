@@ -17,7 +17,7 @@ function renderAllQuizzes(data) {
 
 	for (let i = 0; i < allQuizzes.length; i++) {
 		quizzes.innerHTML += `
-    <article onclick="loadQuizz(${allQuizzes[i].id})" class="quizz-list__quizz">
+    <article onclick="enterQuizz(${allQuizzes[i].id})" class="quizz-list__quizz">
       <img src="${allQuizzes[i].image}" alt="">
       <div class="quizz-list__quizz__gradient"></div>
       <span>${allQuizzes[i].title}</span>
