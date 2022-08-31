@@ -250,7 +250,9 @@ header h1 {
     background-color: blue;
     width: 100%;
     height: 175px;
-    cursor:pointer
+    cursor: pointer;
+    pointer-events:stroke;
+
 }
 .answer-p{
     margin-top: 10px;
