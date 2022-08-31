@@ -17,7 +17,7 @@ function renderAllQuizzes(data) {
 
 	for (let i = 0; i < allQuizzes.length; i++) {
 		quizzes.innerHTML += `
-    <article onclick="enterQuizz(${allQuizzes[i].id})" class="quizz-list__quizz">
+    <article onclick="loadQuizz(${allQuizzes[i].id})" class="quizz-list__quizz">
       <img src="${allQuizzes[i].image}" alt="">
       <div class="quizz-list__quizz__gradient"></div>
       <span>${allQuizzes[i].title}</span>
@@ -25,6 +25,28 @@ function renderAllQuizzes(data) {
     `;
 	}
 }
+
+const goToFormQuestions = (e) => {
+  e.preventDefault();
+  document.querySelector(".creation-basic-info").classList.add("hidden");
+  document.querySelector(".creation-questions").classList.remove("hidden");
+};
+
+const goToFormLevels = (e) => {
+  e.preventDefault();
+  document.querySelector(".creation-questions").classList.add("hidden");
+  document.querySelector(".creation-levels").classList.remove("hidden");
+};
+
+const goToSucessPageForm = (e) => {
+  e.preventDefault();
+  document.querySelector(".creation-levels").classList.add("hidden");
+  document.querySelector(".created-quiz").classList.remove("hidden");
+};
+
+document.querySelector(".basic-info-button").onclick = goToFormQuestions;
+document.querySelector(".questions-button").onclick = goToFormLevels;
+document.querySelector(".creation-levels").onclick = goToSucessPageForm;
 
 
 
