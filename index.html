@@ -87,28 +87,30 @@
     
     <section class="creation-screen">
       <form>
-        <fieldset class="creation-basic-info">
+        <fieldset class="creation-basic-info hidden">
           <legend>Comece pelo começo</legend>
-          
-          <input type="text" id="basic-title" name="basic-title" placeholder="Título do seu quizz">
-          <label for="basic-title"></label>
-          
-          <input type="url" id="basic-img" name="basic-img" placeholder="URL da imagem do seu quizz">
-          <label for="basic-img"></label>
 
-          <input type="text" id="basic-questions" name="basic-questions" placeholder="Quantidade de perguntas do quizz">
-          <label for="basic-questions"></label>
+          <div class="basic-info-wrapper">
+            <input type="text" id="basic-title" name="basic-title" placeholder="Título do seu quizz">
+            <label for="basic-title"></label>
+            
+            <input type="url" id="basic-img" name="basic-img" placeholder="URL da imagem do seu quizz">
+            <label for="basic-img"></label>
 
-          <input type="text" id="basic-levels" name="basic-levels" placeholder="Quantidade de níveis do quizz">
-          <label for="basic-levels"></label>
+            <input type="text" id="basic-questions" name="basic-questions" placeholder="Quantidade de perguntas do quizz">
+            <label for="basic-questions"></label>
+
+            <input type="text" id="basic-levels" name="basic-levels" placeholder="Quantidade de níveis do quizz">
+            <label for="basic-levels"></label>
+          </div>          
 
           <button class="basic-info-button">Prosseguir para criar perguntas</button>
         </fieldset>
 
-        <fieldset class="creation-questions">
+        <fieldset class="creation-questions hidden">
           <legend>Crie suas perguntas</legend>
           
-          <div class="question-1">
+          <div class="question-wrapper question-1">
             <h2 class="question-info">Pergunta 1</h2>
 
             <input type="text" id="question-text" name="question-text" placeholder="Texto da pergunta">
@@ -145,31 +147,31 @@
             <label for="incorrect-image-3"></label>
           </div>
 
-          <div class="question-2">
-            <div class="question-2-header">
+          <div class="question-wrapper question-2">
+            <div class="question-header question-2-header">
               <h2>Pergunta 2</h2>
               <img src="src/images/Vector.png" alt="edit icon">
             </div>
-            <div class="question-2-body">              
+            <div class="question-2-body">            
             </div>
           </div>
           
-          <div class="question-3">
-            <div class="question-3-header">
+          <div class="question-wrapper question-3">
+            <div class="question-header question-3-header">
               <h2>Pergunta 3</h2>
               <img src="src/images/Vector.png" alt="edit icon">
             </div>
             <div class="question-3-body">              
             </div>
-          </div>
+          </div>                   
 
           <button class="questions-button">Prosseguir para criar níveis</button>
         </fieldset>
 
-        <fieldset class="creation-levels">
+        <fieldset class="creation-levels hidden">
           <legend>Agora, decida os níveis</legend>
-
-          <div class="level-1">
+          
+          <div class="levels-wrapper level-1">
             <h2>Nível 1</h2>
 
             <input type="text" id="title-level-1" name="title-level-1" placeholder="Título do nível">
@@ -185,8 +187,8 @@
             <label for="description-level-1"></label>            
           </div>
 
-          <div class="level-2">
-            <div class="level-2-header">
+          <div class="levels-wrapper level-2">
+            <div class="level-header level-2-header">
               <h2>Nível 2</h2>
               <img src="src/images/Vector.png" alt="edit icon">
             </div>
@@ -194,23 +196,23 @@
             </div>
           </div>
           
-          <div class="level-3">
-            <div class="level-3-header">
+          <div class="levels-wrapper level-3">
+            <div class="level-header level-3-header">
               <h2>Nível 3</h2>
               <img src="src/images/Vector.png" alt="edit icon">
             </div>
             <div class="level-3-body">              
             </div>
-          </div>          
-        </fieldset>
+          </div>
 
-        <button class="submit-button">Finalizar Quizz</button>
+          <button class="submit-button">Finalizar Quizz</button>
+        </fieldset>       
       </form>
 
       <div class="created-quiz">
         <h3>Seu quizz está pronto!</h3>
         <div class="created-quiz-image">
-          <p></p>
+          <p>Título do Quizz</p>
         </div>
         <button class="open-quiz-button">Acessar Quiz</button>
         <button class="homepage-button">Voltar para home</button>

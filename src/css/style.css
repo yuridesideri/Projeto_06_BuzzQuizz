@@ -194,6 +194,118 @@ header h1 {
   height: 100vh;
 }
 
+.creation-screen form input {
+  height: 46px;
+  margin-top: 9px;
+  margin-bottom: 9px;
+  padding-left: 16px;
+  border: 1px solid #d1d1d1;
+  border-radius: 5px;
+}
+
+.creation-screen input::placeholder {
+  font-size: 19px;
+  font-style: italic;
+  color: #bababa;
+}
+
+.creation-screen legend, .created-quiz h3  {
+  font-size: 23px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.creation-screen h2 {
+  font-size: 20px;
+  font-weight: 700;
+  padding-top:  20px;
+  padding-bottom: 14px;
+}
+
+.creation-basic-info, .creation-questions, .creation-levels, .created-quiz {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.basic-info-wrapper, .question-wrapper, .levels-wrapper {  
+  width: 600px;
+  height: 100%;
+  padding: 18px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.question-wrapper, .levels-wrapper {
+  margin-bottom: 22px;
+}
+
+.question-header, .level-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.created-quiz-image {
+  display: flex;
+  align-items: flex-end;
+  width: 500px;
+  height: 266px;
+  margin-top: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 65.62%, rgba(0, 0, 0, 0.8) 100%), url(https://www.travelmarvel.com.au/-/media/travelmarvel-responsive-website/new-zealand/hero-image-12-5/south-island-12-5/hc-t-nz-south-island-lake-tekapo-lupins-496267890-i-edit.jpg?useCustomFunctions=1&rw=2280&w=1900&h=950&cropX=190&cropY=0);
+  background-size: cover;
+  border-radius: 5px;
+}
+
+.created-quiz-image p {
+  font-size: 23px;
+  color: #ffffff;
+  padding-bottom: 20px;
+  padding-left: 20px;
+}
+
+.basic-info-button, .questions-button, .submit-button, .open-quiz-button {
+  font-size: 21px;
+  text-align: center;  
+  height: 54px;
+  margin-top: 85px;
+  margin-bottom: 80px;
+  color: #fff5f4;
+  background-color: #EC362D;
+  border-radius: 15px; 
+}
+
+.basic-info-button {
+  width: 368px;
+}
+
+.questions-button {
+  width: 354px;
+}
+
+.submit-button {
+  width: 324px;
+}
+
+.open-quiz-button {
+  width: 220px;
+  margin-bottom: 20px;
+  margin-top: 46px;
+}
+
+.homepage-button {
+  font-size: 21px;
+  color: #818181;
+  background: transparent;
+  border: none;
+}
+
+
+
+
 
 
 
