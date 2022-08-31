@@ -186,12 +186,10 @@ header h1 {
 
 
 
-
 /* ---------------------------- CREATION SCREEN ---------------------------- */
 
 .creation-screen {
   margin-top: 140px;
-  background-color: blue;
   width: 100%;
   height: 100vh;
 }
