@@ -1,0 +1,14 @@
+@media (max-width: 1100px) {
+  
+/* ---------------------------- MAIN SCREEN ---------------------------- */
+
+.main-screen {
+  margin: 100px auto;
+  max-width: 340px;
+}
+
+.some-quizzes__quizzes-title {
+  justify-content: space-between;
+}
+
+}
