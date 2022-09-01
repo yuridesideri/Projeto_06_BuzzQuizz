@@ -5,6 +5,7 @@ let quizzTitle = "";
 let quizzImage = "";
 let quizzNumQuestions = 0;
 let quizzNumLevels = 0;
+
 const url = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
 getAllQuizzes();
@@ -269,7 +270,7 @@ function showLevel(element) {
 	level.classList.toggle("hidden");
 }
 
-/* SEMPRE QUE CLICAR NO LOGO DO SITE ELE TRÁS PARA PAGINA INICIAL */
+/* FUNÇÕES DE NAVEGAÇÃO */
 
 function backToMain() {
 	document.querySelector(".main-screen").classList.remove("hidden");
@@ -277,14 +278,10 @@ function backToMain() {
 	document.querySelector(".creation-screen").classList.add("hidden");
 }
 
-/* FUNÇÃO PARA ENTRAR NO QUIZZ, APENAS ABRE A TELA QUE TEM OS FORMS */
-
 function createNewQuizz() {
 	document.querySelector(".main-screen").classList.add("hidden");
 	document.querySelector(".creation-screen").classList.remove("hidden");
 }
-
-/* POR ENQUANTO A FUNÇÃO ENTRAR EM UM QUIZZ AINDA NÃO ESTÁ FUNCIONANDO, ELA NÃO RECEBE ID NENHUM, APENAS ACIONA A TELA DE EXECUÇÃO DE UM QUIZZ */
 
 function enterQuizz(id) { 
 	document.querySelector(".main-screen").classList.add("hidden");
@@ -293,7 +290,7 @@ function enterQuizz(id) {
 
 /*AI JESUS, VOU TENTAR IMITAR A ORGANIZAÇÃO DO HUGO*/
 
-/* FUNCÕES DE VALIDAÇÃO DO FORM*/
+/* FUNCÕES DE VALIDAÇÃO DO FORM && Criação de objeto NEW QUIZZ*/
 
 //Repetição da função lá de cima, mas agora ela só tem uma responsabilidade, que é get as info.
 function getgBasicInfo() {
@@ -476,24 +473,6 @@ const validateFormQuestions = () => {
   }
 }
 
-
-
-
-document.querySelector(".basic-info-button").onclick = goToFormQuestions;
-
-/* 
-  Níveis
-
-  Título do nível: mínimo de 10 caracteres
-  % de acerto mínima: um número entre 0 e 100
-  URL da imagem do nível: deve ter formato de URL
-  Descrição do nível: mínimo de 30 caracteres
-  É obrigatório existir pelo menos 1 nível cuja % de acerto mínima seja 0%
-
-  Caso alguma validação falhe, deve ser exibida um alerta pedindo para o usuário preencher os dados corretamente. Para simplificar, não é obrigatório informar qual foi a validação que falhou.
-
-  */
-
 function validateLevels() 
 {
   const numOfQuestEachLevel = 4;
@@ -536,6 +515,80 @@ function validateLevels()
   }
   return trueValidations === (getLevelNodes.length * numOfQuestEachLevel) + 1? true : false;
 }
+
+function newQuizz()
+{
+  const newQuizz = {
+    title: '',
+    image: '',
+    questions: [],
+    levels: []
+  }
+  const info = getgBasicInfo();
+  const levelsObject = [];
+  const finalQuestionObject = [];
+  document.querySelectorAll('.question-body').forEach(el => {
+    const questionObject = {
+      title: '',
+      color: '',
+      answers: [{
+        text: "Texto da resposta 1",
+        image: "https://http.cat/411.jpg",
+        isCorrectAnswer: true
+      }]
+    };
+    questionObject.title = el.querySelector('#question-text').value;
+    questionObject.color = el.querySelector('#question-background').value;
+    const inputs = el.querySelectorAll('input:not(#question-text):not(#question-background)');
+    questionObject.answers[0].text = el.querySelector('#correct-answer').value; questionObject.answers[0].image = el.querySelector('#correct-answer-image').value; questionObject.answers[0].isCorrectAnswer = true;
+    for (let i = 0; i < inputs.length - 2; i+= 2)
+    {
+      const tmpObject = {
+        title: inputs[i].value,
+        image: inputs[i++].value,
+        isCorrectAnswer: false
+      }
+      questionObject.answers.push(tmpObject);
+    }
+    finalQuestionObject.push(questionObject);
+  });
+
+  document.querySelectorAll('.level-body').forEach(el => {
+    const inputs = el.querySelectorAll('input');
+    const tmpObject = {
+      title: inputs[0].value,
+      image: inputs[1].value,
+      text: inputs[2].value,
+      minValue: inputs[3].value
+    }
+    levelsObject.push(tmpObject);
+  })
+
+
+  newQuizz.title = info.title;
+  newQuizz.image = info.image;
+  newQuizz.questions = finalQuestionObject;
+  newQuizz.levels = levelsObject;
+
+  return newQuizz;
+}
+
+document.querySelector(".basic-info-button").onclick = goToFormQuestions;
+
+/* 
+  Níveis
+
+  Título do nível: mínimo de 10 caracteres
+  % de acerto mínima: um número entre 0 e 100
+  URL da imagem do nível: deve ter formato de URL
+  Descrição do nível: mínimo de 30 caracteres
+  É obrigatório existir pelo menos 1 nível cuja % de acerto mínima seja 0%
+
+  Caso alguma validação falhe, deve ser exibida um alerta pedindo para o usuário preencher os dados corretamente. Para simplificar, não é obrigatório informar qual foi a validação que falhou.
+
+  */
+
+
 
 
 
