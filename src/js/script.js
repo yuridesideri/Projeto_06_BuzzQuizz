@@ -493,6 +493,7 @@ document.querySelector(".basic-info-button").onclick = goToFormQuestions;
 
 function validateLevels() 
 {
+  const numOfQuestEachLevel = 4;
   const regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
   const getLevelNodes = document.querySelectorAll('.level-body').childNodes;
   let trueValidations = 0;
@@ -518,18 +519,19 @@ function validateLevels()
     values.description.length >= 30? trueValidations++ : alert(`A descrição do Nível ${ind} está inválida`);
   })
     //É obrigatório existir pelo menos 1 nível cuja % de acerto mínima seja 0%
-    for (let i = 0; i < getLevelNode.length; i++)
-    {
-        if (getLevelNode[i].querySelector("input[placeholder=% de acerto mínima").value === 0)
-        {
-          trueValidations++;
-          break;
-        }
-        else if (i === getLevelNode.length - 1)
-        {
-          alert(`Pelo menos um nível deve ter a porcentagem 0`);
-        }
-    }
+  for (let i = 0; i < getLevelNode.length; i++)
+  {
+      if (getLevelNode[i].querySelector("input[placeholder=% de acerto mínima").value === 0)
+      {
+        trueValidations++;
+        break;
+      }
+      else if (i === getLevelNode.length - 1)
+      {
+        alert(`Pelo menos um nível deve ter a porcentagem 0`);
+      }
+  }
+  return trueValidations === (getLevelNodes.length * numOfQuestEachLevel) + 1;
 }
 
 
