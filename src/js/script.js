@@ -7,7 +7,6 @@ let quizzNumLevels = 0;
 const url = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
 getAllQuizzes();
-//document.querySelector(".basic-info-button").onclick = goToFormQuestions;
 
 /* ---------------- FUNCOES QUE RECEBEM TODOS OS QUIZZES DO SERVIDOR E RENDERIZAM ---------------- */
 
@@ -37,10 +36,13 @@ function renderAllQuizzes(data) {
 
 function goToFormQuestions(event) {
   event.preventDefault();
-	gettingBasicInfo();
-	document.querySelector(".creation-basic-info").classList.add("hidden");
-	document.querySelector(".creation-questions").classList.remove("hidden");
-}
+  
+  if(validateBasicInfo() === true) {
+    gettingBasicInfo();
+	  document.querySelector(".creation-basic-info").classList.add("hidden");
+	  document.querySelector(".creation-questions").classList.remove("hidden");
+  }
+}	
 
 function goToFormLevels(event) {
 	event.preventDefault();
@@ -309,9 +311,10 @@ function getgBasicInfo() {
 const validateQuizTitle = (title) => {
   if (title.length < 20) {
     alert("O título deve ter pelo menos 20 caracteres!");
-    return;
+    return false;
   } else if (title.length > 65) {
-    alert("O título pode ter no máximo 65 caracteres!")
+    alert("O título pode ter no máximo 65 caracteres!");
+    return false;
   } else {
     return title;
   }
@@ -322,7 +325,7 @@ const validateImageUrl = (string) => {
 
   if (!regex.test(string)) {
     alert("O endereço da imagem deve ser uma URL");
-    return;
+    return false;
   } else {
     return string;
   }
@@ -331,10 +334,10 @@ const validateImageUrl = (string) => {
 const validateNumberQuestions = (questions) => {
   if (typeof questions !== "number") {
     alert("A quantidade de questões deve ser escrita com algarismos");
-    return;
+    return false;
   } else if (questions < 3) {
     alert("O número de questões deve ser maior ou igual a 3");
-    return;
+    return false;
   } else {
     return questions;
   }
@@ -343,17 +346,17 @@ const validateNumberQuestions = (questions) => {
 const validateNumberLevels = (levels) => {
   if (typeof levels !== "number") {
     alert("A quantidade de níveis deve ser escrita com algarismos");
-    return;
+    return false;
   } else if (levels < 2) {
     alert("O número de níveis deve ser maior ou igual a 2");
-    return;
+    return false;
   } else {
     return levels;
   }
 };
 
-const validateForm = (e) => {
-  e.preventDefault();
+const validateBasicInfo = () => {
+  
   const basicInfo = getgBasicInfo();
 
   const validatedTitle = validateQuizTitle(basicInfo.title);
@@ -361,23 +364,21 @@ const validateForm = (e) => {
   const validatedQuestions = validateNumberQuestions(basicInfo.questions);
   const validatedLevels = validateNumberLevels(basicInfo.levels);
   
-  
+  if (validatedTitle && validatedImage && validatedQuestions && validatedLevels) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
-}
 
 
 
+document.querySelector(".basic-info-button").onclick = goToFormQuestions;
 
 
-document.querySelector(".basic-info-button").onclick = validateForm;
-
-/* Info básica 
-  OK - Título do quizz: deve ter no mínimo 20 e no máximo 65 caracteres
-  OK - URL da Imagem: deve ter formato de URL
-  OK - Quantidade de perguntas: no mínimo 3 perguntas
-  Quantidade de níveis: no mínimo 2 níveis
-
-  Perguntas
+/* 
+Perguntas
   Texto da pergunta: no mínimo 20 caracteres
   Cor de fundo: deve ser uma cor em hexadecimal (começar em "#", seguida de 6 caracteres hexadecimais, ou seja, números ou letras de A a F)
   Textos das respostas: não pode estar vazio
