@@ -55,8 +55,11 @@ function goToFormLevels(event) {
 
 function goToSucessPageForm(event) {
 	event.preventDefault();
-	document.querySelector(".creation-levels").classList.add("hidden");
-	document.querySelector(".created-quiz").classList.remove("hidden");
+  if (validateLevels())
+  {
+    document.querySelector(".creation-levels").classList.add("hidden");
+    document.querySelector(".created-quiz").classList.remove("hidden");
+  }
 }
 
 /* ---------------- FUNÇÕES QUE PEGAM OS VALORES DO PRIMEIRO FORM E ALOCA DINAMICAMENTE OS PROXIMOS ---------------- */
@@ -495,15 +498,15 @@ function validateLevels()
 {
   const numOfQuestEachLevel = 4;
   const regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-  const getLevelNodes = document.querySelectorAll('.level-body').childNodes;
+  const getLevelNodes = document.querySelectorAll('.level-body');
   let trueValidations = 0;
   getLevelNodes.forEach((parentNode, ind) => {
     //Getting each value (of each Level)
     const values = {
-      title: parentNode.querySelector("input[placeholder=Título do nível]").value,
-      percentage: parentNode.querySelector("input[placeholder=% de acerto mínima").value,
-      url: parentNode.querySelector("input[placeholder=URL da imagem do nível").value,
-      description: parentNode.querySelector("input[placeholder=URL da imagem do nível").value
+      title: parentNode.querySelector("input[placeholder='Título do nível']").value,
+      percentage: parentNode.querySelector("input[placeholder='% de acerto mínima']").value,
+      url: parentNode.querySelector("input[placeholder='URL da imagem do nível']").value,
+      description: parentNode.querySelector("input[placeholder='URL da imagem do nível']").value
     }
     //----------------------Checking each value-----------------------//
     //Título do nível: mínimo de 10 caracteres
@@ -519,19 +522,19 @@ function validateLevels()
     values.description.length >= 30? trueValidations++ : alert(`A descrição do Nível ${ind} está inválida`);
   })
     //É obrigatório existir pelo menos 1 nível cuja % de acerto mínima seja 0%
-  for (let i = 0; i < getLevelNode.length; i++)
+  for (let i = 0; i < getLevelNodes.length; i++)
   {
-      if (getLevelNode[i].querySelector("input[placeholder=% de acerto mínima").value === 0)
+      if (getLevelNodes[i].querySelector("input[placeholder='% de acerto mínima']").value === 0)
       {
         trueValidations++;
         break;
       }
-      else if (i === getLevelNode.length - 1)
+      else if (i === getLevelNodes.length - 1)
       {
         alert(`Pelo menos um nível deve ter a porcentagem 0`);
       }
   }
-  return trueValidations === (getLevelNodes.length * numOfQuestEachLevel) + 1;
+  return trueValidations === (getLevelNodes.length * numOfQuestEachLevel) + 1? true : false;
 }
 
 
