@@ -7,7 +7,7 @@ let quizzNumLevels = 0;
 const url = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
 getAllQuizzes();
-document.querySelector(".basic-info-button").onclick = goToFormQuestions;
+//document.querySelector(".basic-info-button").onclick = goToFormQuestions;
 
 /* ---------------- FUNCOES QUE RECEBEM TODOS OS QUIZZES DO SERVIDOR E RENDERIZAM ---------------- */
 
@@ -56,6 +56,8 @@ function goToSucessPageForm(event) {
 
 /* ---------------- FUNÇÕES QUE PEGAM OS VALORES DO PRIMEIRO FORM E ALOCA DINAMICAMENTE OS PROXIMOS ---------------- */
 
+
+//Essa função poderia ser desmembrada e reutilizada. 
 function gettingBasicInfo() {
 	const answers = document.querySelector(".basic-info-wrapper");
 
@@ -280,6 +282,129 @@ function enterQuizz(id) {
 	document.querySelector(".main-screen").classList.add("hidden");
 	document.querySelector(".quizz-screen").classList.remove("hidden");
 }
+
+/*AI JESUS, VOU TENTAR IMITAR A ORGANIZAÇÃO DO HUGO*/
+
+/* FUNCÕES DE VALIDAÇÃO DO FORM*/
+
+//Repetição da função lá de cima, mas agora ela só tem uma responsabilidade, que é get as info.
+function getgBasicInfo() {
+	const answers = document.querySelector(".basic-info-wrapper");
+
+	quizzTitle = answers.querySelector("#basic-title").value;
+	quizzImage = answers.querySelector("#basic-img").value;
+	quizzNumQuestions = parseInt(answers.querySelector("#basic-questions").value);
+	quizzNumLevels = parseInt(answers.querySelector("#basic-levels").value);
+
+  const info = {
+    title: quizzTitle,
+    image: quizzImage,
+    questions: quizzNumQuestions,
+    levels: quizzNumLevels
+  };
+
+  return info;
+}
+
+const validateQuizTitle = (title) => {
+  if (title.length < 20) {
+    alert("O título deve ter pelo menos 20 caracteres!");
+    return;
+  } else if (title.length > 65) {
+    alert("O título pode ter no máximo 65 caracteres!")
+  } else {
+    return title;
+  }
+};
+
+const validateImageUrl = (string) => {
+  const regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+
+  if (!regex.test(string)) {
+    alert("O endereço da imagem deve ser uma URL");
+    return;
+  } else {
+    return string;
+  }
+};
+
+const validateNumberQuestions = (questions) => {
+  if (typeof questions !== "number") {
+    alert("A quantidade de questões deve ser escrita com algarismos");
+    return;
+  } else if (questions < 3) {
+    alert("O número de questões deve ser maior ou igual a 3");
+    return;
+  } else {
+    return questions;
+  }
+};
+
+const validateNumberLevels = (levels) => {
+  if (typeof levels !== "number") {
+    alert("A quantidade de níveis deve ser escrita com algarismos");
+    return;
+  } else if (levels < 2) {
+    alert("O número de níveis deve ser maior ou igual a 2");
+    return;
+  } else {
+    return levels;
+  }
+};
+
+const validateForm = (e) => {
+  e.preventDefault();
+  const basicInfo = getgBasicInfo();
+
+  const validatedTitle = validateQuizTitle(basicInfo.title);
+  const validatedImage = validateImageUrl(basicInfo.image);
+  const validatedQuestions = validateNumberQuestions(basicInfo.questions);
+  const validatedLevels = validateNumberLevels(basicInfo.levels);
+  
+  
+
+}
+
+
+
+
+
+document.querySelector(".basic-info-button").onclick = validateForm;
+
+/* Info básica 
+  OK - Título do quizz: deve ter no mínimo 20 e no máximo 65 caracteres
+  OK - URL da Imagem: deve ter formato de URL
+  OK - Quantidade de perguntas: no mínimo 3 perguntas
+  Quantidade de níveis: no mínimo 2 níveis
+
+  Perguntas
+  Texto da pergunta: no mínimo 20 caracteres
+  Cor de fundo: deve ser uma cor em hexadecimal (começar em "#", seguida de 6 caracteres hexadecimais, ou seja, números ou letras de A a F)
+  Textos das respostas: não pode estar vazio
+  URL das imagens de resposta: deve ter formato de URL
+  É obrigatória a inserção da resposta correta e de pelo menos 1 resposta errada. Portanto, é permitido existirem perguntas com só 2 ou 3 respostas em vez de 4.
+
+  Níveis
+
+  Título do nível: mínimo de 10 caracteres
+  % de acerto mínima: um número entre 0 e 100
+  URL da imagem do nível: deve ter formato de URL
+  Descrição do nível: mínimo de 30 caracteres
+  É obrigatório existir pelo menos 1 nível cuja % de acerto mínima seja 0%
+
+  Caso alguma validação falhe, deve ser exibida um alerta pedindo para o usuário preencher os dados corretamente. Para simplificar, não é obrigatório informar qual foi a validação que falhou.
+
+  */
+
+
+
+
+
+
+
+
+
+
 
 // PROXIMOS PASSOS: 
 // 1 - FAZER AS VERIFICAÇÕES DOS FORMS DE FORMA QUE PAREÇA UM ALERT PEDINDO PARA ARRUMAR OS DADOS SE ALGUM FALHAR
