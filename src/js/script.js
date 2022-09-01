@@ -68,12 +68,12 @@ function goToSucessPageForm(event) {
 
 //Essa função poderia ser desmembrada e reutilizada. 
 function gettingBasicInfo() {
-	const answers = document.querySelector(".basic-info-wrapper");
+	const answers = getgBasicInfo();
 
-	quizzTitle = answers.querySelector("#basic-title").value;
-	quizzImage = answers.querySelector("#basic-img").value;
-	quizzNumQuestions = answers.querySelector("#basic-questions").value;
-	quizzNumLevels = answers.querySelector("#basic-levels").value;
+	quizzTitle = answers.title;
+	quizzImage = answers.image;
+	quizzNumQuestions = answers.questions;
+	quizzNumLevels = answers.levels;
 
 	renderQuestions(quizzNumQuestions);
 	renderLevels(quizzNumLevels);
@@ -288,6 +288,7 @@ function enterQuizz(id) {
 	document.querySelector(".quizz-screen").classList.remove("hidden");
 }
 
+document.querySelector(".basic-info-button").onclick = goToFormQuestions;
 /*AI JESUS, VOU TENTAR IMITAR A ORGANIZAÇÃO DO HUGO*/
 
 /* FUNCÕES DE VALIDAÇÃO DO FORM && Criação de objeto NEW QUIZZ*/
@@ -572,23 +573,6 @@ function newQuizz()
 
   return newQuizz;
 }
-
-document.querySelector(".basic-info-button").onclick = goToFormQuestions;
-
-/* 
-  Níveis
-
-  Título do nível: mínimo de 10 caracteres
-  % de acerto mínima: um número entre 0 e 100
-  URL da imagem do nível: deve ter formato de URL
-  Descrição do nível: mínimo de 30 caracteres
-  É obrigatório existir pelo menos 1 nível cuja % de acerto mínima seja 0%
-
-  Caso alguma validação falhe, deve ser exibida um alerta pedindo para o usuário preencher os dados corretamente. Para simplificar, não é obrigatório informar qual foi a validação que falhou.
-
-  */
-
-
 
 
 
