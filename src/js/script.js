@@ -475,6 +475,46 @@ Perguntas
 
   */
 
+function validateLevels() 
+{
+  const regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+  const getLevelNodes = document.querySelectorAll('.level-body').childNodes;
+  let trueValidations = 0;
+  getLevelNodes.forEach((parentNode, ind) => {
+    //Getting each value (of each Level)
+    const values = {
+      title: parentNode.querySelector("input[placeholder=Título do nível]").value,
+      percentage: parentNode.querySelector("input[placeholder=% de acerto mínima").value,
+      url: parentNode.querySelector("input[placeholder=URL da imagem do nível").value,
+      description: parentNode.querySelector("input[placeholder=URL da imagem do nível").value
+    }
+    //----------------------Checking each value-----------------------//
+    //Título do nível: mínimo de 10 caracteres
+    values.title.length >= 10 ? trueValidations++ : alert(`Título do Nível ${ind} com problema`);
+    
+    //% de acerto mínima: um número entre 0 e 100
+    values.percentage < 100 && values.percentage > 0 ? trueValidations++ : alert(`% de acerto do nível ${ind} está com problemas`);
+
+    //URL da imagem do nível: deve ter formato de URL
+    regex.test(values.url) ? trueValidations++ : alert(`Url do nível ${ind} não é válido`);
+
+    //Descrição do nível: mínimo de 30 caracteres
+    values.description.length >= 30? trueValidations++ : alert(`A descrição do Nível ${ind} está inválida`);
+  })
+    //É obrigatório existir pelo menos 1 nível cuja % de acerto mínima seja 0%
+    for (let i = 0; i < getLevelNode.length; i++)
+    {
+        if (getLevelNode[i].querySelector("input[placeholder=% de acerto mínima").value === 0)
+        {
+          trueValidations++;
+          break;
+        }
+        else if (i === getLevelNode.length - 1)
+        {
+          alert(`Pelo menos um nível deve ter a porcentagem 0`);
+        }
+    }
+}
 
 
 
