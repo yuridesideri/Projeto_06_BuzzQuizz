@@ -36,12 +36,13 @@ function renderAllQuizzes(data) {
 
 function goToFormQuestions(event) {
   event.preventDefault();
-  
-  if(validateBasicInfo() === true) {
-    gettingBasicInfo();
+  gettingBasicInfo();
 	  document.querySelector(".creation-basic-info").classList.add("hidden");
 	  document.querySelector(".creation-questions").classList.remove("hidden");
-  }
+
+  //if(validateBasicInfo() === true) {
+    
+  //}
 }	
 
 function goToFormLevels(event) {
@@ -72,7 +73,7 @@ function gettingBasicInfo() {
 	renderLevels(quizzNumLevels);
 	renderCreatedQuizz(quizzTitle, quizzImage);
 
-	document.querySelector(".questions-button").onclick = goToFormLevels;
+	//document.querySelector(".questions-button").onclick = goToFormLevels;
 	document.querySelector(".submit-button").onclick = goToSucessPageForm;
 }
 
@@ -145,26 +146,26 @@ function renderQuestions(numQuestions) {
           <input type="text" id="correct-answer" name="question-correct-answer" placeholder="Resposta correta">
           <label for="correct-answer"></label>
 
-          <input type="url" id="correct-answer-image" name="correct-answer-image" placeholder="URL da imagem">
+          <input type="url" id="correct-answer-image" name="correct-answer-image" placeholder="URL da imagem" class="answers-image">
           <label for="correct-answer-image"></label>
 
           <h2 class="incorrect-answer-info">Respostas incorretas</h2>
 
-          <input type="text" id="incorrect-answer-1" name="incorrect-answer-1" placeholder="Resposta incorreta 1">
+          <input type="text" id="incorrect-answer-1" name="incorrect-answer-1" placeholder="Resposta incorreta 1" class="incorrect-answers">
           <label for="incorrect-answer-1"></label>
 
-          <input type="url" id="incorret-image-1" name="incorrect-image-1" placeholder="URL da imagem 1">
+          <input type="url" id="incorret-image-1" name="incorrect-image-1" placeholder="URL da imagem 1" class="answers-image">
 
-          <input type="text" id="incorrect-answer-2" name="incorrect-answer-2" placeholder="Resposta incorreta 2">
+          <input type="text" id="incorrect-answer-2" name="incorrect-answer-2" placeholder="Resposta incorreta 2" class="incorrect-answers">
           <label for="incorrect-answer-2"></label>
 
-          <input type="url" id="incorrect-image-2" name="incorrect-image-2" placeholder="URL da imagem 2">
+          <input type="url" id="incorrect-image-2" name="incorrect-image-2" placeholder="URL da imagem 2" class="answers-image">
           <label for="incorrect-answer-2"></label>
           
-          <input type="text" id="incorrect-answer-3" name="incorrect-answer-3" placeholder="Resposta incorreta 3">
+          <input type="text" id="incorrect-answer-3" name="incorrect-answer-3" placeholder="Resposta incorreta 3" class="incorrect-answers">
           <label for="incorrect-answer-3"></label>
 
-          <input type="url" id="incorrect-image-3" name="incorrect-answer-3" placeholder="URL da imagem 3">
+          <input type="url" id="incorrect-image-3" name="incorrect-answer-3" placeholder="URL da imagem 3" class="answers-image">
           <label for="incorrect-image-3"></label>
         </div>
       </div>
@@ -316,7 +317,7 @@ const validateQuizTitle = (title) => {
     alert("O título pode ter no máximo 65 caracteres!");
     return false;
   } else {
-    return title;
+    return true;
   }
 };
 
@@ -327,7 +328,7 @@ const validateImageUrl = (string) => {
     alert("O endereço da imagem deve ser uma URL");
     return false;
   } else {
-    return string;
+    return true;
   }
 };
 
@@ -339,7 +340,7 @@ const validateNumberQuestions = (questions) => {
     alert("O número de questões deve ser maior ou igual a 3");
     return false;
   } else {
-    return questions;
+    return true;
   }
 };
 
@@ -351,12 +352,11 @@ const validateNumberLevels = (levels) => {
     alert("O número de níveis deve ser maior ou igual a 2");
     return false;
   } else {
-    return levels;
+    return true;
   }
 };
 
-const validateBasicInfo = () => {
-  
+const validateBasicInfo = () => {  
   const basicInfo = getgBasicInfo();
 
   const validatedTitle = validateQuizTitle(basicInfo.title);
@@ -371,19 +371,96 @@ const validateBasicInfo = () => {
   }
 };
 
+const validateQuestionText = () => {
+  const questions = document.querySelectorAll("input[name=question-text]");
+  
+  for (let i = 0; i < questions.length; i++) {
+    let question = questions[i];
+    let text = question.value;
+
+    if(text.length < 20) {
+      alert("O texto da pergunta deve ter pelo menos 20 caracteres");
+      return false;
+    }
+  }
+
+  return true;
+};
+
+const validateQuestionBackground = () => {
+  const backgrounds = document.querySelectorAll("input[name=question-background]");
+  const regex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+
+  for (let i = 0; i < backgrounds.length; i++) {
+    let bg = backgrounds[i];
+    let color = bg.value;
+
+    if (!regex.test(color)) {
+      alert("A cor de fundo deve ser uma cor hexadecimal");
+      return false;
+    }
+  }
+
+  return true;
+};
+
+const validateCorrectAnswer = () => {
+  const answers = document.querySelectorAll("input[name=question-correct-answer]");
+
+  if (answers.length === 0) {
+    alert("A resposta correta não pode ficar em branco");
+    return false;
+  }
+
+  for (let i = 0; i < answers.length; i++) {
+    let answer = answers[i].value;
+    
+    if (answer.length === 0) {
+      alert("A resposta correta não pode ficar em branco");
+      return false;
+    }
+  }
+
+  return true;
+};
+
+const validateIncorrectAnswer = () => {
+  const answers = document.querySelectorAll(".incorrect-answers");
+
+  if (answers.length === 0) {
+    alert("Você deve inserir pelo menos uma resposta incorreta");
+    return false;
+  }
+
+  for (let i = 0; i < answers.length; i++) {
+    let answer = answers[i].value;
+    
+    if (answer.length === 0) {
+      alert("Você deve inserir pelo menos uma resposta incorreta para cada pergunta");
+      return false;
+    }
+  }
+
+  return true;
+}
+
+//class="answers-image"
+
+const validateFormQuestions = () => {
+  
+}
+
 
 
 
 document.querySelector(".basic-info-button").onclick = goToFormQuestions;
 
-
 /* 
-Perguntas
-  Texto da pergunta: no mínimo 20 caracteres
-  Cor de fundo: deve ser uma cor em hexadecimal (começar em "#", seguida de 6 caracteres hexadecimais, ou seja, números ou letras de A a F)
-  Textos das respostas: não pode estar vazio
+Perguntas  
+  
+  
   URL das imagens de resposta: deve ter formato de URL
-  É obrigatória a inserção da resposta correta e de pelo menos 1 resposta errada. Portanto, é permitido existirem perguntas com só 2 ou 3 respostas em vez de 4.
+  
 
   Níveis
 
