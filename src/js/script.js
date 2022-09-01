@@ -35,20 +35,21 @@ function renderAllQuizzes(data) {
 /* ---------------- FUNCOES DOS BOTOES DENTRO DO FORMS (CRIAÇÃO DO QUIZZ) ---------------- */
 
 function goToFormQuestions(event) {
-  event.preventDefault();
-  gettingBasicInfo();
-	  document.querySelector(".creation-basic-info").classList.add("hidden");
-	  document.querySelector(".creation-questions").classList.remove("hidden");
+  event.preventDefault();  
 
-  //if(validateBasicInfo() === true) {
-    
-  //}
+  if(validateBasicInfo() === true) {
+    gettingBasicInfo();
+    document.querySelector(".creation-basic-info").classList.add("hidden");
+	  document.querySelector(".creation-questions").classList.remove("hidden");
+  }
 }	
 
 function goToFormLevels(event) {
 	event.preventDefault();
-	document.querySelector(".creation-questions").classList.add("hidden");
-	document.querySelector(".creation-levels").classList.remove("hidden");
+  if (validateFormQuestions() === true) {
+    document.querySelector(".creation-questions").classList.add("hidden");
+	  document.querySelector(".creation-levels").classList.remove("hidden");
+  }	
 }
 
 function goToSucessPageForm(event) {
@@ -73,7 +74,7 @@ function gettingBasicInfo() {
 	renderLevels(quizzNumLevels);
 	renderCreatedQuizz(quizzTitle, quizzImage);
 
-	//document.querySelector(".questions-button").onclick = goToFormLevels;
+	document.querySelector(".questions-button").onclick = goToFormLevels;
 	document.querySelector(".submit-button").onclick = goToSucessPageForm;
 }
 
@@ -106,21 +107,21 @@ function renderQuestions(numQuestions) {
 
         <h2 class="incorrect-answer-info">Respostas incorretas</h2>
 
-        <input type="text" id="incorrect-answer-1" name="incorrect-answer-1" placeholder="Resposta incorreta 1">
+        <input type="text" id="incorrect-answer-1" name="incorrect-answer-1" placeholder="Resposta incorreta 1" class="incorrect-answers">
         <label for="incorrect-answer-1"></label>
 
-        <input type="url" id="incorret-image-1" name="incorrect-image-1" placeholder="URL da imagem 1">
+        <input type="url" id="incorret-image-1" name="incorrect-image-1" placeholder="URL da imagem 1" class="answers-image">
 
-        <input type="text" id="incorrect-answer-2" name="incorrect-answer-2" placeholder="Resposta incorreta 2">
+        <input type="text" id="incorrect-answer-2" name="incorrect-answer-2" placeholder="Resposta incorreta 2" class="incorrect-answers">
         <label for="incorrect-answer-2"></label>
 
-        <input type="url" id="incorrect-image-2" name="incorrect-image-2" placeholder="URL da imagem 2">
+        <input type="url" id="incorrect-image-2" name="incorrect-image-2" placeholder="URL da imagem 2" class="answers-image">
         <label for="incorrect-answer-2"></label>
           
-        <input type="text" id="incorrect-answer-3" name="incorrect-answer-3" placeholder="Resposta incorreta 3">
+        <input type="text" id="incorrect-answer-3" name="incorrect-answer-3" placeholder="Resposta incorreta 3" class="incorrect-answers">
         <label for="incorrect-answer-3"></label>
 
-        <input type="url" id="incorrect-image-3" name="incorrect-answer-3" placeholder="URL da imagem 3">
+        <input type="url" id="incorrect-image-3" name="incorrect-answer-3" placeholder="URL da imagem 3" class="answers-image">
         <label for="incorrect-image-3"></label>
       </div>
     </div>
@@ -426,28 +427,49 @@ const validateCorrectAnswer = () => {
 
 const validateIncorrectAnswer = () => {
   const answers = document.querySelectorAll(".incorrect-answers");
-
-  if (answers.length === 0) {
-    alert("Você deve inserir pelo menos uma resposta incorreta");
-    return false;
-  }
+   let hasSomeAnswer = false;
 
   for (let i = 0; i < answers.length; i++) {
     let answer = answers[i].value;
     
-    if (answer.length === 0) {
-      alert("Você deve inserir pelo menos uma resposta incorreta para cada pergunta");
-      return false;
+    if (answer.length !== 0) {     
+      hasSomeAnswer = true;
     }
+  }
+
+  if (hasSomeAnswer === false) {
+     alert("Você deve inserir pelo menos uma resposta incorreta para cada pergunta");
+     return false;
+  }
+
+  return true;
+};
+
+const validateAnswersImages = () => {
+  const images = document.querySelectorAll(".answers-image");
+  const regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+  let hasSomeUrl = false;
+
+  for (let i = 0; i < images.length; i++) {
+    let image = images[i].value;
+
+    if(regex.test(image)) {
+      hasSomeUrl = true;
+    }
+  }
+
+  if(hasSomeUrl === false) {
+    alert("A imagem deve ser uma URL");
+    return false;
   }
 
   return true;
 }
 
-//class="answers-image"
-
 const validateFormQuestions = () => {
-  
+  if (validateCorrectAnswer() === true && validateIncorrectAnswer() === true && validateAnswersImages() === true) {
+    return true;
+  }
 }
 
 
@@ -456,12 +478,6 @@ const validateFormQuestions = () => {
 document.querySelector(".basic-info-button").onclick = goToFormQuestions;
 
 /* 
-Perguntas  
-  
-  
-  URL das imagens de resposta: deve ter formato de URL
-  
-
   Níveis
 
   Título do nível: mínimo de 10 caracteres
