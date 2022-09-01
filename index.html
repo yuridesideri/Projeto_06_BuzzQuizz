@@ -24,7 +24,6 @@
   <main>
 
     <section class="main-screen">
-
       <div class="my-quizzes">
         <div class="my-quizzes__zero-quizzes">
           <p class="zero-quizzes__message">Você não criou nenhum quizz ainda :(</p>
@@ -146,10 +145,10 @@
             <input type="url" id="basic-img" name="basic-img" placeholder="URL da imagem do seu quizz">
             <label for="basic-img"></label>
 
-            <input type="text" id="basic-questions" name="basic-questions" placeholder="Quantidade de perguntas do quizz">
+            <input type="number" id="basic-questions" name="basic-questions" placeholder="Quantidade de perguntas do quizz">
             <label for="basic-questions"></label>
 
-            <input type="text" id="basic-levels" name="basic-levels" placeholder="Quantidade de níveis do quizz">
+            <input type="number" id="basic-levels" name="basic-levels" placeholder="Quantidade de níveis do quizz">
             <label for="basic-levels"></label>
           </div>          
 
@@ -157,116 +156,17 @@
         </fieldset>
 
         <fieldset class="creation-questions hidden">
-          <legend>Crie suas perguntas</legend>
-          
-          <div class="question-wrapper question-1">
-            <h2 class="question-info">Pergunta 1</h2>
-
-            <input type="text" id="question-text" name="question-text" placeholder="Texto da pergunta">
-            <label for="question-text"></label>
-
-            <input type="text" id="question-background" name="question-background" placeholder="Cor de fundo da pergunta">
-            <label for="question-background"></label>
-            
-            <h2 class="correct-answer-info">Resposta correta</h2>
-
-            <input type="text" id="correct-answer" name="question-correct-answer" placeholder="Resposta correta">
-            <label for="correct-answer"></label>
-
-            <input type="url" id="correct-answer-image" name="correct-answer-image" placeholder="URL da imagem">
-            <label for="correct-answer-image"></label>
-
-            <h3 class="incorrect-answer-info"></h3>
-
-            <input type="text" id="incorrect-answer-1" name="incorrect-answer-1" placeholder="Resposta incorreta 1">
-            <label for="incorrect-answer-1"></label>
-
-            <input type="url" id="incorret-image-1" name="incorrect-image-1" placeholder="URL da imagem 1">
-
-            <input type="text" id="incorrect-answer-2" name="incorrect-answer-2" placeholder="Resposta incorreta 2">
-            <label for="incorrect-answer-2"></label>
-
-            <input type="url" id="incorrect-image-2" name="incorrect-image-2" placeholder="URL da imagem 2">
-            <label for="incorrect-answer-2"></label>
-            
-            <input type="text" id="incorrect-answer-3" name="incorrect-answer-3" placeholder="Resposta incorreta 3">
-            <label for="incorrect-answer-3"></label>
-
-            <input type="url" id="incorrect-image-3" name="incorrect-answer-3" placeholder="URL da imagem 3">
-            <label for="incorrect-image-3"></label>
-          </div>
-
-          <div class="question-wrapper question-2">
-            <div class="question-header question-2-header">
-              <h2>Pergunta 2</h2>
-              <img src="src/images/Vector.png" alt="edit icon">
-            </div>
-            <div class="question-2-body">            
-            </div>
-          </div>
-          
-          <div class="question-wrapper question-3">
-            <div class="question-header question-3-header">
-              <h2>Pergunta 3</h2>
-              <img src="src/images/Vector.png" alt="edit icon">
-            </div>
-            <div class="question-3-body">              
-            </div>
-          </div>                   
-
-          <button class="questions-button">Prosseguir para criar níveis</button>
+          <!-- FIELDSET VAZIO POIS ESTÁ SENDO ALOCADO DINAMICAMENTE NO JS -->
         </fieldset>
 
         <fieldset class="creation-levels hidden">
-          <legend>Agora, decida os níveis</legend>
-          
-          <div class="levels-wrapper level-1">
-            <h2>Nível 1</h2>
-
-            <input type="text" id="title-level-1" name="title-level-1" placeholder="Título do nível">
-            <label for="title-level-1"></label>
-
-            <input type="text" id="percentage-level-1" name="percentage-level-1" placeholder="% de acerto mínima">
-            <label for="percentage-level-1"></label>
-
-            <input type="url" id="image-level-1" name="image-level-1" placeholder="URL da imagem do nível">
-            <label for="image-level-1"></label>
-
-            <input type="text" id="description-level-1" name="description-level-1" placeholder="Descrição do nível">
-            <label for="description-level-1"></label>            
-          </div>
-
-          <div class="levels-wrapper level-2">
-            <div class="level-header level-2-header">
-              <h2>Nível 2</h2>
-              <img src="src/images/Vector.png" alt="edit icon">
-            </div>
-            <div class="level-2-body">              
-            </div>
-          </div>
-          
-          <div class="levels-wrapper level-3">
-            <div class="level-header level-3-header">
-              <h2>Nível 3</h2>
-              <img src="src/images/Vector.png" alt="edit icon">
-            </div>
-            <div class="level-3-body">              
-            </div>
-          </div>
-
-          <button class="submit-button">Finalizar Quizz</button>
+          <!-- FIELDSET VAZIO POIS ESTÁ SENDO ALOCADO DINAMICAMENTE NO JS -->
         </fieldset>       
       </form>
 
       <div class="created-quiz hidden">
-        <h3>Seu quizz está pronto!</h3>
-        <div class="created-quiz-image">
-          <p>Título do Quizz</p>
-        </div>
-        <button onclick="enterQuizz()" class="open-quiz-button">Acessar Quiz</button>
-        <button onclick="backToMain()" class="homepage-button">Voltar para home</button>
+        <!-- DIV VAZIA POIS ESTÁ SENDO ALOCADA DINAMICAMENTE NO JS -->
       </div>
-
     </section>
 
   </main>
