@@ -250,10 +250,10 @@ function renderLevels(numLevels) {
           <input type="text" id="title-level-${i}" name="title-level-${i}" placeholder="Título do nível">
           <label for="title-level-${i}"></label>
 
-          <input type="number" id="percentage-level-${i}" name="percentage-level-${i}" placeholder="% de acerto mínima">
+          <input type="number" id="percentage-level-${i}" name="percentage-level-${i}" placeholder="% de acerto mínima" min="0">
           <label for="percentage-level-${i}"></label>
 
-          <input type="url" id="image-level-${i}" name="image-level-${i}" placeholder="URL da imagem do nível">
+          <input type="url" id="image-level-${i}" name="image-level-${i}" placeholder="URL da imagem do nível" min="0">
           <label for="image-level-${i}"></label>
 
           <input type="text" id="description-level-${i}" name="description-level-${i}" placeholder="Descrição do nível">
