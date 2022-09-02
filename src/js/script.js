@@ -84,8 +84,9 @@ function goToSucessPageForm(event) {
 	if (validateLevels()) {
 		document.querySelector(".creation-levels").classList.add("hidden");
 		document.querySelector(".created-quiz").classList.remove("hidden");
+		sendNewQuizz();
 	}
-	sendNewQuizz();
+
 }
 
 /* ---------------- FUNÇÕES QUE PEGAM OS VALORES DO PRIMEIRO FORM E ALOCA DINAMICAMENTE OS PROXIMOS ---------------- */
@@ -100,7 +101,6 @@ function gettingBasicInfo() {
 
 	renderQuestions(quizzNumQuestions);
 	renderLevels(quizzNumLevels);
-	renderCreatedQuizz(quizzTitle, quizzImage);
 
 	document.querySelector(".questions-button").onclick = goToFormLevels;
 	document.querySelector(".submit-button").onclick = goToSucessPageForm;
@@ -268,16 +268,21 @@ function renderLevels(numLevels) {
   `;
 }
 
-function renderCreatedQuizz(title, img) {
+function renderCreatedQuizz() {
 	const quizz = document.querySelector(".created-quiz");
+	const answers = getBasicInfo();
 	const id = getQuizzID();
+
+	quizzTitle = answers.title;
+	quizzImage = answers.image;
+	
 
 	quizz.innerHTML = `
     <h3>Seu quizz está pronto!</h3>
     <article class="created-quiz-image">
-      <img onclick="enterQuizz(${id})" src="${img}" alt="">
+      <img onclick="enterQuizz(${id})" src="${quizzImage}" alt="">
       <div class="created-quiz-image__gradient"></div>
-      <span>${title}</span>
+      <span>${quizzTitle}</span>
     </article>
     <button onclick="enterQuizz(${id})" class="open-quiz-button">Acessar Quiz</button>
     <button onclick="backToMain()" class="homepage-button">Voltar para home</button>
@@ -631,7 +636,7 @@ function renderQuizz(render) {
 
 function sendNewQuizz() {
 	let quizzModelo = {
-		title: "Título fsdfsdfsdfsdfgdfgf sf sddfgquizz",
+		title: "Título teste 1",
 		image: "https://http.cat/411.jpg",
 		questions: [
 			{
@@ -708,9 +713,11 @@ function getQuizzInfo(data) {
 
 	myQuizzes.push(data.data);
 
+
 	const myQuizzesSerialized = JSON.stringify(myQuizzes);
 	localStorage.setItem("myQuizzes", myQuizzesSerialized);
 	renderMyQuizzes();
+	renderCreatedQuizz();
 }
 
 function callLocalStorage() {
