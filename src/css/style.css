@@ -356,7 +356,9 @@ header h1 {
     pointer-events: none; 
 }
 .lock-selected{
+  transition-duration: 0s;
   pointer-events: none;
+
 }
 .color-wrong{
   transition-duration: 1s;

@@ -583,12 +583,11 @@ function newQuizz() {
 /*---------------------------- FUNÇÕES DE EXBIÇÃO DO QUIZZ -------------------------------*/
 
 function downloadQuizz(id) {
-	axios.get(`${url}/${id}`).then(quizzHtmlCreation);
+	axios.get(`${url}/${id}`).then(data => quizzHtmlCreation(data.data));
 }
 
 function quizzHtmlCreation(data) {
-	const quizzObject = data.data;
-	console.log(quizzObject);
+	const quizzObject = randomizeQuizz(data);
 	//Criação dinâmica de HTML
 	const newHTML = `
     <section class="quizz-header">
@@ -598,19 +597,17 @@ function quizzHtmlCreation(data) {
       </div>
     </section>
     <section class="quizz-questions">
-      ${quizzObject.questions
-				.map((el) => {
-					return `
+      ${quizzObject.questions.map((el) => {
+		return `
           <div class="quizz-questions__quizz-box">
             <div class="quizz-question-header-div" style="bakcground-color:${el.color}" data-identifier="question">
               <p class="question-header">${el.title}</p>
             </div>
             <div class="quizz-questions-options-div">
       
-            ${el.answers
-							.map((newEl) => {
-								return `
-                <div class="questions-answer answer-1 ${newEl.isCorrectAnswer ? "correct-answer" : "wrong-answer"}" data-identifier="answer">
+            ${el.answers.map((newEl) => {
+			return `
+                <div onclick='checkCorrect(this)' class="questions-answer ${newEl.isCorrectAnswer ? "correct-answer" : "wrong-answer"}" data-identifier="answer">
                   <img draggable="false" src=${newEl.image} alt="" class="answer-img">
                   <p class="answer-p">${newEl.text}</p>
                 </div>
@@ -753,15 +750,27 @@ function getQuizzID() {
 /*--------------------------- Funções de Lógica de Jogo --------------------------------*/
 function randomizeQuizz(quiz)
 {
-	const answers = quiz.questions.answers;
-	answers = answers.forEach((el, ind) => 
+	let questions = quiz.questions;
+	questions.forEach((el, ind) => 
 	{
-		const newInd =  Math.floor(Math.random() * answers.length);
-		const tmpEl = answers[newInd];
-		answers[newInd] = el;
-		answers[ind] = tmpEl;
+		const newInd =  Math.floor(Math.random() * questions.length);
+		const tmpEl = questions[newInd];
+		questions[newInd] = el;
+		questions[ind] = tmpEl;
 	})
-	quizz.questions.answers = answers;
+	quiz.questions = questions;
 
-	return quizz;
+	return quiz;
+}
+
+function checkCorrect(el)
+{
+	//Esta função retorna 1(ponto) caso tenha escolhido correto ou 0(ponto) caso tenha escolhido errado
+	const parentNode = el.closest('.quizz-questions-options-div');
+	el.classList.add('lock-selected');
+	parentNode.querySelectorAll('.questions-answer:not(.lock-selected)').forEach(el => el.classList.add('lock-unselected'));
+	parentNode.querySelector('.correct-answer').classList.add('color-right');
+	parentNode.querySelectorAll('.wrong-answer').forEach(el => el.classList.add('color-wrong'));
+	return el.getAttribute('class').includes('correct-answer')? 1 : 0;
+
 }
