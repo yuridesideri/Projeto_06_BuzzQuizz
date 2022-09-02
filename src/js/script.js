@@ -741,3 +741,20 @@ function getQuizzID() {
 	let id = myQuizzes[myQuizzes.length - 1].id;
 	return id;
 }
+
+
+/*--------------------------- Funções de Lógica de Jogo --------------------------------*/
+function randomizeQuizz(quiz)
+{
+	const answers = quiz.questions.answers;
+	answers = answers.forEach((el, ind) => 
+	{
+		const newInd =  Math.floor(Math.random() * answers.length);
+		const tmpEl = answers[newInd];
+		answers[newInd] = el;
+		answers[ind] = tmpEl;
+	})
+	quizz.questions.answers = answers;
+
+	return quizz;
+}
