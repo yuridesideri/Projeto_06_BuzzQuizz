@@ -275,7 +275,7 @@ function renderCreatedQuizz(title, img) {
 	quizz.innerHTML = `
     <h3>Seu quizz está pronto!</h3>
     <article class="created-quiz-image">
-      <img onclick="enterQuizz()" src="${img}" alt="">
+      <img onclick="enterQuizz(${id})" src="${img}" alt="">
       <div class="created-quiz-image__gradient"></div>
       <span>${title}</span>
     </article>
@@ -311,7 +311,7 @@ function createNewQuizz() {
 }
 
 function enterQuizz(id) {
-	document.querySelector(".main-screen").classList.add("hidden");
+	document.querySelector(".creation-screen").classList.add("hidden");
 	document.querySelector(".quizz-screen").classList.remove("hidden");
 	downloadQuizz(id);
 }
