@@ -162,10 +162,10 @@ function renderQuestions(numQuestions) {
       <div class="question-wrapper question-${i}">
         <div class="question-header">
           <h2>Pergunta ${i}</h2>
-          <img onclick="showQuestion(this)" src="src/images/edit.svg" alt="edit icon">
+          <img onclick="showQuestion(this)" src="src/images/edit.svg" alt="edit icon" data-identifier="expand">
         </div>
 
-        <div class="question-body hidden">
+        <div class="question-body hidden" data-identifier="question-form">
           <input type="text" id="question-text" name="question-text" placeholder="Texto da pergunta">
           <label for="question-text"></label>
 
@@ -219,10 +219,10 @@ function renderLevels(numLevels) {
     <div class="levels-wrapper level-1">
       <div class="level-header">
         <h2>Nível 1</h2>
-        <img onclick="showLevel(this)" src="src/images/edit.svg" alt="edit icon">
+        <img onclick="showLevel(this)" src="src/images/edit.svg" alt="edit icon" data-identifier="expand">
       </div>
 
-      <div class="level-body">
+      <div class="level-body" data-identifier="level">
         <input type="text" id="title-level-1" name="title-level-1" placeholder="Título do nível">
         <label for="title-level-1"></label>
 
