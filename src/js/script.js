@@ -578,11 +578,11 @@ function newQuizz() {
 /*---------------------------- FUNÇÕES DE EXBIÇÃO DO QUIZZ -------------------------------*/
 
 function downloadQuizz(id) {
-	axios.get(`${url}/${id}`).then(quizzHtmlCreation);
+	axios.get(`${url}/${id}`).then(data => quizzHtmlCreation(data.data));
 }
 
 function quizzHtmlCreation(data) {
-	const quizzObject = data.data;
+	const quizzObject = randomizeQuizz(data);
 	console.log(quizzObject);
 	//Criação dinâmica de HTML
 	const newHTML = `
@@ -593,18 +593,16 @@ function quizzHtmlCreation(data) {
       </div>
     </section>
     <section class="quizz-questions">
-      ${quizzObject.questions
-				.map((el) => {
-					return `
+      ${quizzObject.questions.map((el) => {
+		return `
           <div class="quizz-questions__quizz-box">
             <div class="quizz-question-header-div" style="bakcground-color:${el.color}" data-identifier="question">
               <p class="question-header">${el.title}</p>
             </div>
             <div class="quizz-questions-options-div">
       
-            ${el.answers
-							.map((newEl) => {
-								return `
+            ${el.answers.map((newEl) => {
+			return `
                 <div class="questions-answer answer-1 ${newEl.isCorrectAnswer ? "correct-answer" : "wrong-answer"}" data-identifier="answer">
                   <img draggable="false" src=${newEl.image} alt="" class="answer-img">
                   <p class="answer-p">${newEl.text}</p>
@@ -746,15 +744,17 @@ function getQuizzID() {
 /*--------------------------- Funções de Lógica de Jogo --------------------------------*/
 function randomizeQuizz(quiz)
 {
-	const answers = quiz.questions.answers;
-	answers = answers.forEach((el, ind) => 
+	console.log(quiz);
+	let questions = quiz.questions;
+	questions.forEach((el, ind) => 
 	{
-		const newInd =  Math.floor(Math.random() * answers.length);
-		const tmpEl = answers[newInd];
-		answers[newInd] = el;
-		answers[ind] = tmpEl;
+		const newInd =  Math.floor(Math.random() * questions.length);
+		const tmpEl = questions[newInd];
+		questions[newInd] = el;
+		questions[ind] = tmpEl;
 	})
-	quizz.questions.answers = answers;
+	quiz.questions = questions;
 
-	return quizz;
+	return quiz;
 }
+
