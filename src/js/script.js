@@ -5,6 +5,13 @@ let quizzTitle = "";
 let quizzImage = "";
 let quizzNumQuestions = 0;
 let quizzNumLevels = 0;
+let quizzInGame = {
+	gameOn: false,
+	selected: 0,
+	questions: 0,
+	rightAnswers: 0,
+	levelsStorage: 0
+};
 
 const url = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
@@ -752,12 +759,52 @@ function randomizeQuizz(quiz)
 
 function checkCorrect(el)
 {
-	//Esta função retorna 1(ponto) caso tenha escolhido correto ou 0(ponto) caso tenha escolhido errado
 	const parentNode = el.closest('.quizz-questions-options-div');
 	el.classList.add('lock-selected');
 	parentNode.querySelectorAll('.questions-answer:not(.lock-selected)').forEach(el => el.classList.add('lock-unselected'));
 	parentNode.querySelector('.correct-answer').classList.add('color-right');
 	parentNode.querySelectorAll('.wrong-answer').forEach(el => el.classList.add('color-wrong'));
-	return el.getAttribute('class').includes('correct-answer')? 1 : 0;
+	el.getAttribute('class').includes('correct-answer')? quizzInGame.gameOn === true ?  quizzInGame.rightAnswers+= 1: '' : 0;
+	quizzInGame.selected += 1;
+	checkEndGame();
+}
 
+function checkEndGame()
+{
+	quizzInGame.questions === quizzInGame.selected? loadEndGame() : '';
+}
+
+function loadEndGame()
+{
+	const percentage = parseFloat((quizzInGame.rightAnswers/quizzInGame.questions).toFixed(2))* 100;
+	const getRightLevel = quizzInGame.levelsStorage.reduce((acc, el) => (percentage - el.minValue > 0 && el.minValue > acc.minValue) ? acc = el : '');
+	const finalHTML = 
+	`
+	<section class="quizz-completed">
+	<div class="quizz-completed__inner-box">
+	  <div class="quizz-completed-header-div">
+		<p class="completed-status-header">${percentage}% de acerto:${getRightlevel.title}</p>
+	  </div>
+	  <div class="quizz-completed-main-content" data-identifier="quizz-result">
+		<img src="${getRightLevel.image}" alt="">
+		<p>${getRightLevel.text}</p>
+	  </div>
+	</div>
+	<div class="quizz-completed__buttons">
+		<button class="quizz-completed__restart-quizz">Reiniciar Quizz</button>
+		<p class="quizz-completed__go-home">Voltar pra home</p>
+	</div>
+	</section>
+	
+	`;
+
+	renderQuizz(finalHTML);
+
+	quizzInGame = {
+		gameOn: false,
+		selected: 0,
+		questions: 0,
+		rightAnswers: 0,
+		levelsStorage: 0
+	};
 }
