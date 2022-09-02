@@ -65,8 +65,6 @@ function goToSucessPageForm(event) {
 
 /* ---------------- FUNÇÕES QUE PEGAM OS VALORES DO PRIMEIRO FORM E ALOCA DINAMICAMENTE OS PROXIMOS ---------------- */
 
-
-//Essa função poderia ser desmembrada e reutilizada. 
 function gettingBasicInfo() {
 	const answers = getgBasicInfo();
 
@@ -286,14 +284,13 @@ function createNewQuizz() {
 function enterQuizz(id) { 
 	document.querySelector(".main-screen").classList.add("hidden");
 	document.querySelector(".quizz-screen").classList.remove("hidden");
+  downloadQuizz(id);
 }
 
 document.querySelector(".basic-info-button").onclick = goToFormQuestions;
-/*AI JESUS, VOU TENTAR IMITAR A ORGANIZAÇÃO DO HUGO*/
 
-/* FUNCÕES DE VALIDAÇÃO DO FORM && Criação de objeto NEW QUIZZ*/
+/* -------------------FUNCÕES DE *VALIDAÇÃO* DO FORM && Criação de objeto *NEW QUIZZ*-------------------*/
 
-//Repetição da função lá de cima, mas agora ela só tem uma responsabilidade, que é get as info.
 function getgBasicInfo() {
 	const answers = document.querySelector(".basic-info-wrapper");
 
@@ -576,16 +573,76 @@ function newQuizz()
 
 
 
+/*---------------------------- FUNÇÕES DE EXBIÇÃO DO QUIZZ -------------------------------*/
+
+function downloadQuizz(id)
+{
+  axios.get(`${url}/${id}`).then(quizzHtmlCreation);
+}
+function quizzHtmlCreation(data)
+{
+  const quizzObject = data.data;
+  console.log(quizzObject);
+    //Criação dinâmica de HTML
+    const newHTML = 
+    `
+    <section class="quizz-header">
+      <p class="quizz-header__title">${quizzObject.title}</p>
+      <div class="quizz-header-opacity">
+        <img draggable="false" src="${quizzObject.image}" alt=""/>
+      </div>
+    </section>
+    <section class="quizz-questions">
+      ${quizzObject.questions.map( (el) => {
+        return `
+          <div class="quizz-questions__quizz-box">
+            <div class="quizz-question-header-div" style="bakcground-color:${el.color}">
+              <p class="question-header">${el.title}</p>
+            </div>
+            <div class="quizz-questions-options-div">
+      
+            ${el.answers.map( (newEl) => {
+              return `
+                <div class="questions-answer answer-1 ${newEl.isCorrectAnswer? 'correct-answer' : 'wrong-answer'}">
+                  <img draggable="false" src=${newEl.image} alt="" class="answer-img">
+                  <p class="answer-p">${newEl.text}</p>
+                </div>
+              `
+              }).reduce((acc, el) => acc + el, '')
+            }
+      
+            </div>
+          </div>
+        `
+        }).reduce((acc, el) => acc + el, '')
+      }
+    </section>
+    <section class="quizz-completed">
+      <div class="quizz-completed__inner-box">
+        <div class="quizz-completed-header-div">
+          <p class="completed-status-header">Pergunta Pergunta Pergunta</p>
+        </div>
+        <div class="quizz-completed-main-content">
+          <img src="" alt="">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Culpa, quae sequi! Ipsam, ullam facere tenetur ducimus distinctio 
+            laudantium nostrum magni quas eligendi suscipit earum sequi! 
+            Consectetur amet ratione inventore magni!</p>
+        </div>
+      </div>
+      <div class="quizz-completed__buttons">
+        <button class="quizz-completed__restart-quizz">Reiniciar Quizz</button>
+        <p class="quizz-completed__go-home">Voltar pra home</p>
+      </div>
+    </section>
+    `
+  renderQuizz(newHTML);
+}
+
+function renderQuizz(render)
+{
+  document.querySelector('.quizz-screen').innerHTML = render; 
+}
 
 
-
-
-
-
-
-// PROXIMOS PASSOS: 
-// 1 - FAZER AS VERIFICAÇÕES DOS FORMS DE FORMA QUE PAREÇA UM ALERT PEDINDO PARA ARRUMAR OS DADOS SE ALGUM FALHAR
-// 2 - PASSAR TODOS OS DADOS RECOLHIDOS DOS FORMS PARA UM OBJETO
-// 3 - FAZER A FUNÇÃO DE ENVIAR ESSE OBJETO PARA A API, RECEBER O ID DO QUIZZ E SALVAR NO LOCAL STORAGE (PODE DEIXAR QUE EU FAÇO ISSO - HUGO)
-
-// OBS: CRIEI UM JS NOVO CHAMADO "QUIZZMODEL.JS", ELE TEM A ESTRUTURA DO OBJETO QUE DEVE SER CRIADO E ENVIADO PARA A API, PARA FACILITAR A CONSULTA :)
+//Renderização

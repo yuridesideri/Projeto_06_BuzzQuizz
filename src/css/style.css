@@ -157,7 +157,7 @@ header h1 {
 
 
 
-
+/*Banner de cima do Quizz*/
 .quizz-header{
     display: flex;
     flex-wrap: nowrap;
@@ -183,12 +183,18 @@ header h1 {
     height: inherit;
     opacity: 0.6;
     background-color: black;
+    overflow: hidden;
+}
+.quizz-header-opacity>img{
+  width: 100%;
+  min-height: 100%;
+  transform: translate(0, -50%);
 }
 
 
 
 
-
+/*Classes das perguntas in-game*/
 .quizz-questions, .quizz-completed{
     display: flex;
     flex-direction: column;
@@ -197,10 +203,7 @@ header h1 {
     align-items: center;
     box-sizing: border-box;
 }
-.new-space-end-game{
-    padding-bottom: 42px; /* Cuidado no Media Query */
-}
-.simulation{
+.quizz-questions__quizz-box{
     background-color: #FFFFFF;
     width: 759px;
     height: 676px;
@@ -229,20 +232,18 @@ header h1 {
     height: 80%;
     padding-top: 19px;
     box-sizing: border-box;
-}
-.quizz-questions-options-div>div{
-    width: inherit;
-    height: 50%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 
 .questions-answer{
     background-color: #FFFFFF;
     width: 49%;
-    height: 100%;
     box-sizing: border-box;
     padding-bottom: 18px;
+    display: flex;
+    flex-direction: column;
 }
 .answer-img{
     background-color: blue;
@@ -257,14 +258,13 @@ header h1 {
     font-weight: 700;
     font-size: 20px;
     color: inherit;
+    word-break: break-all;
 }
 
 
-.end-screen-update-space{
-    padding-bottom: 85px;
-}
 
 
+/*Classes para o Quizz Completo*/
 
 .quizz-completed__inner-box{
     background-color: #FFFFFF;
@@ -309,7 +309,7 @@ header h1 {
     color: #484848;
 }
 
-
+/*Navegação Pós-Finalização de Quizz*/
 .quizz-completed__restart-quizz{
     margin-top:57px;
     background-color: #EC362D;
@@ -356,7 +356,9 @@ header h1 {
     opacity: 0.3;
     pointer-events: none;
 }
-
+.end-screen-update-space{
+  padding-bottom: 85px; /* LAISSE : essa classe só é removida quando o quizz finaliza*/
+}
 
 
 
