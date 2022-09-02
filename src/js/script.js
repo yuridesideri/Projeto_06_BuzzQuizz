@@ -583,7 +583,6 @@ function downloadQuizz(id) {
 
 function quizzHtmlCreation(data) {
 	const quizzObject = randomizeQuizz(data);
-	console.log(quizzObject);
 	//Criação dinâmica de HTML
 	const newHTML = `
     <section class="quizz-header">
@@ -603,7 +602,7 @@ function quizzHtmlCreation(data) {
       
             ${el.answers.map((newEl) => {
 			return `
-                <div class="questions-answer answer-1 ${newEl.isCorrectAnswer ? "correct-answer" : "wrong-answer"}" data-identifier="answer">
+                <div onclick='checkCorrect(this)' class="questions-answer ${newEl.isCorrectAnswer ? "correct-answer" : "wrong-answer"}" data-identifier="answer">
                   <img draggable="false" src=${newEl.image} alt="" class="answer-img">
                   <p class="answer-p">${newEl.text}</p>
                 </div>
@@ -744,7 +743,6 @@ function getQuizzID() {
 /*--------------------------- Funções de Lógica de Jogo --------------------------------*/
 function randomizeQuizz(quiz)
 {
-	console.log(quiz);
 	let questions = quiz.questions;
 	questions.forEach((el, ind) => 
 	{
@@ -758,3 +756,14 @@ function randomizeQuizz(quiz)
 	return quiz;
 }
 
+function checkCorrect(el)
+{
+	//Esta função retorna 1(ponto) caso tenha escolhido correto ou 0(ponto) caso tenha escolhido errado
+	const parentNode = el.closest('.quizz-questions-options-div');
+	el.classList.add('lock-selected');
+	parentNode.querySelectorAll('.questions-answer:not(.lock-selected)').forEach(el => el.classList.add('lock-unselected'));
+	parentNode.querySelector('.correct-answer').classList.add('color-right');
+	parentNode.querySelectorAll('.wrong-answer').forEach(el => el.classList.add('color-wrong'));
+	return el.getAttribute('class').includes('correct-answer')? 1 : 0;
+
+}
