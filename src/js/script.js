@@ -85,7 +85,7 @@ function goToSucessPageForm(event) {
 		document.querySelector(".creation-levels").classList.add("hidden");
 		document.querySelector(".created-quiz").classList.remove("hidden");
 	}
-	wsendNewQuizz();
+	sendNewQuizz();
 }
 
 /* ---------------- FUNÇÕES QUE PEGAM OS VALORES DO PRIMEIRO FORM E ALOCA DINAMICAMENTE OS PROXIMOS ---------------- */
@@ -100,7 +100,7 @@ function gettingBasicInfo() {
 
 	renderQuestions(quizzNumQuestions);
 	renderLevels(quizzNumLevels);
-	//renderCreatedQuizz(quizzTitle, quizzImage);
+	renderCreatedQuizz(quizzTitle, quizzImage);
 
 	document.querySelector(".questions-button").onclick = goToFormLevels;
 	document.querySelector(".submit-button").onclick = goToSucessPageForm;
