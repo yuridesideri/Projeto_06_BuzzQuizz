@@ -270,6 +270,7 @@ function renderLevels(numLevels) {
 
 function renderCreatedQuizz(title, img) {
 	const quizz = document.querySelector(".created-quiz");
+	const id = getQuizzID();
 
 	quizz.innerHTML = `
     <h3>Seu quizz está pronto!</h3>
@@ -278,7 +279,7 @@ function renderCreatedQuizz(title, img) {
       <div class="created-quiz-image__gradient"></div>
       <span>${title}</span>
     </article>
-    <button onclick="enterQuizz()" class="open-quiz-button">Acessar Quiz</button>
+    <button onclick="enterQuizz(${id})" class="open-quiz-button">Acessar Quiz</button>
     <button onclick="backToMain()" class="homepage-button">Voltar para home</button>
   `;
 }
