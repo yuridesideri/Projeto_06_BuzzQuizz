@@ -85,7 +85,7 @@ function goToSucessPageForm(event) {
 		document.querySelector(".creation-levels").classList.add("hidden");
 		document.querySelector(".created-quiz").classList.remove("hidden");
 	}
-	sendNewQuizz();
+	wsendNewQuizz();
 }
 
 /* ---------------- FUNÇÕES QUE PEGAM OS VALORES DO PRIMEIRO FORM E ALOCA DINAMICAMENTE OS PROXIMOS ---------------- */
@@ -100,7 +100,7 @@ function gettingBasicInfo() {
 
 	renderQuestions(quizzNumQuestions);
 	renderLevels(quizzNumLevels);
-	renderCreatedQuizz(quizzTitle, quizzImage);
+	//renderCreatedQuizz(quizzTitle, quizzImage);
 
 	document.querySelector(".questions-button").onclick = goToFormLevels;
 	document.querySelector(".submit-button").onclick = goToSucessPageForm;
@@ -129,29 +129,29 @@ function renderQuestions(numQuestions) {
           
         <h2 class="correct-answer-info">Resposta correta</h2>
 
-        <input type="text" id="correct-answer" name="question-correct-answer" placeholder="Resposta correta">
+        <input type="text" id="correct-answer" name="question-correct-answer" placeholder="Resposta correta" class="question-body__answer">
         <label for="correct-answer"></label>
 
-        <input type="url" id="correct-answer-image" name="correct-answer-image" placeholder="URL da imagem">
+        <input type="url" id="correct-answer-image" name="correct-answer-image" placeholder="URL da imagem" class="answers-image question-body__answer">
         <label for="correct-answer-image"></label>
 
         <h2 class="incorrect-answer-info">Respostas incorretas</h2>
 
-        <input type="text" id="incorrect-answer-1" name="incorrect-answer-1" placeholder="Resposta incorreta 1" class="incorrect-answers">
+        <input type="text" id="incorrect-answer-1" name="incorrect-answer-1" placeholder="Resposta incorreta 1" class="incorrect-answers question-body__answer">
         <label for="incorrect-answer-1"></label>
 
-        <input type="url" id="incorret-image-1" name="incorrect-image-1" placeholder="URL da imagem 1" class="answers-image">
+        <input type="url" id="incorret-image-1" name="incorrect-image-1" placeholder="URL da imagem 1" class="answers-image question-body__answer">
 
-        <input type="text" id="incorrect-answer-2" name="incorrect-answer-2" placeholder="Resposta incorreta 2" class="incorrect-answers">
+        <input type="text" id="incorrect-answer-2" name="incorrect-answer-2" placeholder="Resposta incorreta 2" class="incorrect-answers question-body__answer">
         <label for="incorrect-answer-2"></label>
 
-        <input type="url" id="incorrect-image-2" name="incorrect-image-2" placeholder="URL da imagem 2" class="answers-image">
+        <input type="url" id="incorrect-image-2" name="incorrect-image-2" placeholder="URL da imagem 2" class="answers-image question-body__answer">
         <label for="incorrect-answer-2"></label>
           
-        <input type="text" id="incorrect-answer-3" name="incorrect-answer-3" placeholder="Resposta incorreta 3" class="incorrect-answers">
+        <input type="text" id="incorrect-answer-3" name="incorrect-answer-3" placeholder="Resposta incorreta 3" class="incorrect-answers question-body__answer">
         <label for="incorrect-answer-3"></label>
 
-        <input type="url" id="incorrect-image-3" name="incorrect-answer-3" placeholder="URL da imagem 3" class="answers-image">
+        <input type="url" id="incorrect-image-3" name="incorrect-answer-3" placeholder="URL da imagem 3" class="answers-image question-body__answer">
         <label for="incorrect-image-3"></label>
       </div>
     </div>
@@ -176,29 +176,29 @@ function renderQuestions(numQuestions) {
           
           <h2 class="correct-answer-info">Resposta correta</h2>
 
-          <input type="text" id="correct-answer" name="question-correct-answer" placeholder="Resposta correta">
+          <input type="text" id="correct-answer" name="question-correct-answer" placeholder="Resposta correta" class="question-body__answer">
           <label for="correct-answer"></label>
 
-          <input type="url" id="correct-answer-image" name="correct-answer-image" placeholder="URL da imagem" class="answers-image">
+          <input type="url" id="correct-answer-image" name="correct-answer-image" placeholder="URL da imagem" class="answers-image question-body__answer">
           <label for="correct-answer-image"></label>
 
           <h2 class="incorrect-answer-info">Respostas incorretas</h2>
 
-          <input type="text" id="incorrect-answer-1" name="incorrect-answer-1" placeholder="Resposta incorreta 1" class="incorrect-answers">
+          <input type="text" id="incorrect-answer-1" name="incorrect-answer-1" placeholder="Resposta incorreta 1" class="incorrect-answers question-body__answer">
           <label for="incorrect-answer-1"></label>
 
-          <input type="url" id="incorret-image-1" name="incorrect-image-1" placeholder="URL da imagem 1" class="answers-image">
+          <input type="url" id="incorret-image-1" name="incorrect-image-1" placeholder="URL da imagem 1" class="answers-image question-body__answer">
 
-          <input type="text" id="incorrect-answer-2" name="incorrect-answer-2" placeholder="Resposta incorreta 2" class="incorrect-answers">
+          <input type="text" id="incorrect-answer-2" name="incorrect-answer-2" placeholder="Resposta incorreta 2" class="incorrect-answers question-body__answer">
           <label for="incorrect-answer-2"></label>
 
-          <input type="url" id="incorrect-image-2" name="incorrect-image-2" placeholder="URL da imagem 2" class="answers-image">
+          <input type="url" id="incorrect-image-2" name="incorrect-image-2" placeholder="URL da imagem 2" class="answers-image question-body__answer">
           <label for="incorrect-answer-2"></label>
           
-          <input type="text" id="incorrect-answer-3" name="incorrect-answer-3" placeholder="Resposta incorreta 3" class="incorrect-answers">
+          <input type="text" id="incorrect-answer-3" name="incorrect-answer-3" placeholder="Resposta incorreta 3" class="incorrect-answers question-body__answer">
           <label for="incorrect-answer-3"></label>
 
-          <input type="url" id="incorrect-image-3" name="incorrect-answer-3" placeholder="URL da imagem 3" class="answers-image">
+          <input type="url" id="incorrect-image-3" name="incorrect-answer-3" placeholder="URL da imagem 3" class="answers-image question-body__answer">
           <label for="incorrect-image-3"></label>
         </div>
       </div>
@@ -532,61 +532,47 @@ function validateLevels() {
 }
 
 function newQuizz() {
+	const info = getBasicInfo();
 	const newQuizz = {
-		title: "",
-		image: "",
+		title: '',
+		image: '',
 		questions: [],
 		levels: [],
 	};
-	const info = getBasicInfo();
 	const levelsObject = [];
 	const finalQuestionObject = [];
-	document.querySelectorAll(".question-body").forEach((el) => {
-		const questionObject = {
-			title: "",
-			color: "",
-			answers: [
-				{
-					text: "Texto da resposta 1",
-					image: "https://http.cat/411.jpg",
-					isCorrectAnswer: true,
-				},
-			],
-		};
-		questionObject.title = el.querySelector("#question-text").value;
-		questionObject.color = el.querySelector("#question-background").value;
-		const inputs = el.querySelectorAll("input:not(#question-text):not(#question-background)");
-		questionObject.answers[0].text = el.querySelector("#correct-answer").value;
-		questionObject.answers[0].image = el.querySelector("#correct-answer-image").value;
-		questionObject.answers[0].isCorrectAnswer = true;
-		for (let i = 0; i < inputs.length - 2; i += 2) {
-			const tmpObject = {
-				title: inputs[i].value,
-				image: inputs[i++].value,
-				isCorrectAnswer: false,
-			};
-			questionObject.answers.push(tmpObject);
+
+	const questions = Array.from(document.querySelectorAll(".question-body")).map(el => 
+		{
+		return {title: el.querySelector("input[name='question-text'").value,
+				color: el.querySelector("input[name='question-background").value,
+				answers: Array.from(el.querySelectorAll(".question-body__answer")).map((el,ind,arr) => 
+					{
+						return ind%2 === 0 ? 
+						{text: arr[ind].value,
+						image: arr[ind++].value,
+						isCorrectAnswer: arr[ind].getAttribute('name') === 'question-correct-answer'} :
+						'';
+					}).filter(el => el !== '' && el !== null)
+				}
+		});
+
+	const levels = Array.from(document.querySelectorAll(".level-body")).map(el => {
+		const levelInputs = el.querySelectorAll('input');
+		return {
+			title: levelInputs[0].value,
+			image: levelInputs[2].value,
+			text: levelInputs[3].value,
+			minValue: parseInt(levelInputs[1].value)
 		}
-		finalQuestionObject.push(questionObject);
 	});
-
-	document.querySelectorAll(".level-body").forEach((el) => {
-		const inputs = el.querySelectorAll("input");
-		const tmpObject = {
-			title: inputs[0].value,
-			image: inputs[3].value,
-			text: inputs[2].value,
-			minValue: Number(inputs[1].value),
-		};
-		levelsObject.push(tmpObject);
-	});
-
 	newQuizz.title = info.title;
 	newQuizz.image = info.image;
-	newQuizz.questions = finalQuestionObject;
-	newQuizz.levels = levelsObject;
+	newQuizz.questions = questions;
+	newQuizz.levels = levels;
 
 	return newQuizz;
+	//----------------------------------------------------------------------------------------
 }
 
 /*---------------------------- FUNÇÕES DE EXBIÇÃO DO QUIZZ -------------------------------*/
@@ -594,6 +580,7 @@ function newQuizz() {
 function downloadQuizz(id) {
 	axios.get(`${url}/${id}`).then(quizzHtmlCreation);
 }
+
 function quizzHtmlCreation(data) {
 	const quizzObject = data.data;
 	console.log(quizzObject);
