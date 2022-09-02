@@ -636,7 +636,7 @@ function quizzHtmlCreation(data)
       </div>
     </section>
     `
-  renderQuizz(newHTML);
+  renderQuizz(newHTML); //A última section remete à finalização do jogo e onde deve interagir a % de acerto com os níveis
 }
 
 function renderQuizz(render)
