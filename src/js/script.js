@@ -23,7 +23,7 @@ function getAllQuizzes() {
 function renderAllQuizzes(data) {
 	allQuizzes = data.data;
 
-	document.querySelector(".loading-all-quizzes").classList.add("hidden");
+	document.querySelector(".loading-all-quizzes-wrapper").classList.add("hidden");
 
 	const quizzes = document.querySelector(".all-quizzes__quizz-list");
 	quizzes.innerHTML = "";
