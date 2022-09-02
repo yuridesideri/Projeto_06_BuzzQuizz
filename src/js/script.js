@@ -301,6 +301,7 @@ function backToMain() {
 	document.querySelector(".main-screen").classList.remove("hidden");
 	document.querySelector(".quizz-screen").classList.add("hidden");
 	document.querySelector(".creation-screen").classList.add("hidden");
+	document.location.reload(true);
 }
 
 function createNewQuizz() {
