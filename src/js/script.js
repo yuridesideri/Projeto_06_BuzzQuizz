@@ -578,7 +578,12 @@ function newQuizz() {
 /*---------------------------- FUNÇÕES DE EXBIÇÃO DO QUIZZ -------------------------------*/
 
 function downloadQuizz(id) {
-	axios.get(`${url}/${id}`).then(data => quizzHtmlCreation(data.data));
+	let futureData;
+	const promise = axios.get(`${url}/${id}`).then(data => this.futureData = data.data);
+	quizzInGame.gameOn = true;
+	quizzInGame.questions = futureData.questions.length;
+	quizzInGame.levelsStorage = futureData.levels;
+	quizzHtmlCreation(futureData);
 }
 
 function quizzHtmlCreation(data) {
@@ -616,30 +621,12 @@ function quizzHtmlCreation(data) {
 				})
 				.reduce((acc, el) => acc + el, "")}
     </section>
-    <section class="quizz-completed">
-      <div class="quizz-completed__inner-box">
-        <div class="quizz-completed-header-div">
-          <p class="completed-status-header">Pergunta Pergunta Pergunta</p>
-        </div>
-        <div class="quizz-completed-main-content" data-identifier="quizz-result">
-          <img src="" alt="">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Culpa, quae sequi! Ipsam, ullam facere tenetur ducimus distinctio 
-            laudantium nostrum magni quas eligendi suscipit earum sequi! 
-            Consectetur amet ratione inventore magni!</p>
-        </div>
-      </div>
-      <div class="quizz-completed__buttons">
-        <button class="quizz-completed__restart-quizz">Reiniciar Quizz</button>
-        <p class="quizz-completed__go-home">Voltar pra home</p>
-      </div>
-    </section>
     `;
 	renderQuizz(newHTML); //A última section remete à finalização do jogo e onde deve interagir a % de acerto com os níveis
 }
 
 function renderQuizz(render) {
-	document.querySelector(".quizz-screen").innerHTML = render;
+	document.querySelector(".quizz-screen").innerHTML += render;
 }
 
 function sendNewQuizz() {
