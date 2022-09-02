@@ -30,7 +30,7 @@ function renderAllQuizzes(data) {
 
 	for (let i = 0; i < allQuizzes.length; i++) {
 		quizzes.innerHTML += `
-    <article onclick="enterQuizz(${allQuizzes[i].id})" class="quizz-list__quizz">
+    <article onclick="enterQuizz(${allQuizzes[i].id})" class="quizz-list__quizz" data-identifier="quizz-card">
       <img src="${allQuizzes[i].image}" alt="">
       <div class="quizz-list__quizz__gradient"></div>
       <span>${allQuizzes[i].title}</span>
@@ -47,7 +47,7 @@ function renderMyQuizzes() {
 		quizzes.innerHTML = "";
 		for (let i = 0; i < myQuizzes.length; i++) {
 			quizzes.innerHTML += `
-      <article onclick="enterQuizz(${myQuizzes[i].id})" class="quizz-list__quizz">
+      <article onclick="enterQuizz(${myQuizzes[i].id})" class="quizz-list__quizz" data-identifier="quizz-card">
         <img src="${myQuizzes[i].image}" alt="">
         <div class="quizz-list__quizz__gradient"></div>
         <span>${myQuizzes[i].title}</span>
@@ -312,6 +312,7 @@ function createNewQuizz() {
 
 function enterQuizz(id) {
 	document.querySelector(".creation-screen").classList.add("hidden");
+	document.querySelector(".main-screen").classList.add("hidden");
 	document.querySelector(".quizz-screen").classList.remove("hidden");
 	downloadQuizz(id);
 }
@@ -609,7 +610,7 @@ function quizzHtmlCreation(data) {
 				.map((el) => {
 					return `
           <div class="quizz-questions__quizz-box">
-            <div class="quizz-question-header-div" style="bakcground-color:${el.color}">
+            <div class="quizz-question-header-div" style="bakcground-color:${el.color}" data-identifier="question">
               <p class="question-header">${el.title}</p>
             </div>
             <div class="quizz-questions-options-div">
@@ -617,7 +618,7 @@ function quizzHtmlCreation(data) {
             ${el.answers
 							.map((newEl) => {
 								return `
-                <div class="questions-answer answer-1 ${newEl.isCorrectAnswer ? "correct-answer" : "wrong-answer"}">
+                <div class="questions-answer answer-1 ${newEl.isCorrectAnswer ? "correct-answer" : "wrong-answer"}" data-identifier="answer">
                   <img draggable="false" src=${newEl.image} alt="" class="answer-img">
                   <p class="answer-p">${newEl.text}</p>
                 </div>
@@ -636,7 +637,7 @@ function quizzHtmlCreation(data) {
         <div class="quizz-completed-header-div">
           <p class="completed-status-header">Pergunta Pergunta Pergunta</p>
         </div>
-        <div class="quizz-completed-main-content">
+        <div class="quizz-completed-main-content" data-identifier="quizz-result">
           <img src="" alt="">
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
             Culpa, quae sequi! Ipsam, ullam facere tenetur ducimus distinctio 

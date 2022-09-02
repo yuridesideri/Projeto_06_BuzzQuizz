@@ -26,19 +26,19 @@
 				<div class="my-quizzes">
 					<div class="my-quizzes__zero-quizzes">
 						<p class="zero-quizzes__message">Você não criou nenhum quizz ainda :(</p>
-						<button onclick="createNewQuizz()" class="zero-quizzes__new-quizz">Criar Quizz</button>
+						<button onclick="createNewQuizz()" class="zero-quizzes__new-quizz" data-identifier="create-quizz">Criar Quizz</button>
 					</div>
 					<div class="my-quizzes__some-quizzes hidden">
 						<div class="some-quizzes__quizzes-title">
 							<p class="main-screen__title">Seus quizzes</p>
-							<ion-icon onclick="createNewQuizz()" name="add-circle"></ion-icon>
+							<ion-icon onclick="createNewQuizz()" name="add-circle" data-identifier="create-quizz"></ion-icon>
 						</div>
-						<div class="my-quizzes__quizz-list"></div>
+						<div class="my-quizzes__quizz-list" data-identifier="user-quizzes"></div>
 					</div>
 				</div>
 				<div class="all-quizzes">
 					<p class="main-screen__title">Todos os Quizzes</p>
-					<div class="all-quizzes__quizz-list"></div>
+					<div class="all-quizzes__quizz-list" data-identifier="general-quizzes"></div>
 					<div class="loading-all-quizzes-wrapper">
 						<div class="loading-all-quizzes">
 							<div class="lds-ripple">
