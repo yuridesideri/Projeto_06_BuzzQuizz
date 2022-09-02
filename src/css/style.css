@@ -399,6 +399,44 @@ O texto está com inherit então pode colocar em divs acima que vai funcionar*/
   border-radius: 5px;
 }
 
+.creation-screen .color-picker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #d1d1d1;
+  border-radius: 5px;
+  padding: 0 16px;
+  margin: 9px 0;
+}
+
+.creation-screen #question-background {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  width: 50px;
+  height: 26px;
+  padding: 0;
+}
+
+#question-background::-webkit-color-swatch {
+  border-radius: 5px;
+  border: none;
+}
+
+#question-background::-moz-color-swatch {
+  border-radius: 5px;
+  border: none;
+}
+
+.creation-screen label {
+  font-size: 19px;
+  font-style: italic;
+  color: #bababa;
+}
+
 .creation-screen input::placeholder {
   font-size: 19px;
   font-style: italic;
@@ -550,4 +588,67 @@ O texto está com inherit então pode colocar em divs acima que vai funcionar*/
 
 .hidden {
   display: none;
+}
+
+/* -------------------------- CSS ANIMATION LOADING -------------------------- */
+
+.loading-all-quizzes {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.loading-all-quizzes p {
+  font-style: italic;
+  color: #b9b9b9;
+}
+
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #e03832;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  4.9% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  5% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
 }
