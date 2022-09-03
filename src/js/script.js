@@ -10,7 +10,8 @@ let quizzInGame = {
 	selected: 0,
 	questions: 0,
 	rightAnswers: 0,
-	levelsStorage: 0
+	levelsStorage: 0,
+	id: 0
 };
 
 const url = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
@@ -34,8 +35,6 @@ function renderAllQuizzes(data) {
 
 	const quizzes = document.querySelector(".all-quizzes__quizz-list");
 	quizzes.innerHTML = "";
-
-	console.log(myQuizzes)
 
 	for (let i = 0; i < allQuizzes.length; i++) {
 		quizzes.innerHTML += `
@@ -326,9 +325,11 @@ function createNewQuizz() {
 }
 
 function enterQuizz(id) {
+	document.querySelector('.quizz-screen').classList.remove('end-screen-update-space');
 	document.querySelector(".creation-screen").classList.add("hidden");
 	document.querySelector(".main-screen").classList.add("hidden");
 	document.querySelector(".quizz-screen").classList.remove("hidden");
+	document.querySelector('.rendering-quizz-wrapper').classList.add('hidden');
 	downloadQuizz(id);
 }
 
@@ -623,13 +624,20 @@ function quizzGetCorrectAnswer(el)
 }
 /*---------------------------- FUNÇÕES DE EXBIÇÃO DO QUIZZ -------------------------------*/
 
-function downloadQuizz(id) {
-	let futureData;
-	const promise = axios.get(`${url}/${id}`).then(data => this.futureData = data.data);
-	quizzInGame.gameOn = true;
-	quizzInGame.questions = futureData.questions.length;
-	quizzInGame.levelsStorage = futureData.levels;
-	quizzHtmlCreation(futureData);
+async function downloadQuizz(id) {
+	const promise = await axios.get(`${url}/${id}`);
+	data = promise.data;
+	
+	quizzInGame = {
+		gameOn: true,
+		selected: 0,
+		questions: data.questions.length,
+		rightAnswers: 0,
+		levelsStorage: data.levels,
+		id: id
+	};
+
+	quizzHtmlCreation(data);
 }
 
 function quizzHtmlCreation(data) {
@@ -784,13 +792,17 @@ function getQuizzID() {
 function randomizeQuizz(quiz)
 {
 	let questions = quiz.questions;
-	questions.forEach((el, ind) => 
+	for (let i = 0; i < 5; i++)
 	{
-		const newInd =  Math.floor(Math.random() * questions.length);
-		const tmpEl = questions[newInd];
-		questions[newInd] = el;
-		questions[ind] = tmpEl;
-	})
+		questions.forEach(el => el.answers.forEach((el, ind, arr) => 
+		{
+			const newInd =  Math.floor(Math.random() * arr.length);
+			const tmpEl = arr[newInd];
+			arr[newInd] = el;
+			arr[ind] = tmpEl;
+		})
+		)
+	}
 	quiz.questions = questions;
 
 	return quiz;
@@ -799,6 +811,7 @@ function randomizeQuizz(quiz)
 function checkCorrect(el)
 {
 	const parentNode = el.closest('.quizz-questions-options-div');
+	parentNode.querySelectorAll('div[onclick="checkCorrect(this)"]').forEach(el => el.removeAttribute('onclick')); //Removes all onClicks
 	el.classList.add('lock-selected');
 	parentNode.querySelectorAll('.questions-answer:not(.lock-selected)').forEach(el => el.classList.add('lock-unselected'));
 	parentNode.querySelector('.correct-answer').classList.add('color-right');
@@ -816,13 +829,13 @@ function checkEndGame()
 function loadEndGame()
 {
 	const percentage = parseFloat((quizzInGame.rightAnswers/quizzInGame.questions).toFixed(2))* 100;
-	const getRightLevel = quizzInGame.levelsStorage.reduce((acc, el) => (percentage - el.minValue > 0 && el.minValue > acc.minValue) ? acc = el : '');
+	const getRightLevel = quizzInGame.levelsStorage.reduce((acc, el) => ((percentage - el.minValue) > 0 && (el.minValue > acc.minValue)) ? el : acc);
 	const finalHTML = 
 	`
 	<section class="quizz-completed">
 	<div class="quizz-completed__inner-box">
 	  <div class="quizz-completed-header-div">
-		<p class="completed-status-header">${percentage}% de acerto:${getRightlevel.title}</p>
+		<p class="completed-status-header">${percentage}% de acerto: ${getRightLevel.title}</p>
 	  </div>
 	  <div class="quizz-completed-main-content" data-identifier="quizz-result">
 		<img src="${getRightLevel.image}" alt="">
@@ -838,35 +851,49 @@ function loadEndGame()
 	`;
 
 	renderQuizz(finalHTML);
+	document.querySelector('.quizz-screen').classList.add('end-screen-update-space');
+	document.querySelector('.quizz-completed').scrollIntoView({behavior: 'smooth'});
 
-	quizzInGame = {
-		gameOn: false,
-		selected: 0,
-		questions: 0,
-		rightAnswers: 0,
-		levelsStorage: 0
-	};
+	
+	quizzInGame.gameOn = false;
+
+	document.querySelector('.quizz-completed__restart-quizz').onclick = () => {resetQuizz(); enterQuizz(quizzInGame.id)};
+}
+
+function resetQuizz()
+{
+document.querySelector(".quizz-screen").innerHTML = `
+<div class="rendering-quizz-wrapper">
+				<div class="loading-all-quizzes">
+					<div class="lds-ripple">
+						<div></div>
+						<div></div>
+					</div>
+					<p>Carregando o Quizz...</p>
+				</div>
+			</div>
+`;
 }
 
 function deleteQuizz(id) {
-	const answer = confirm("Tem certeza que deseja deletar esse quizz?")
+const answer = confirm("Tem certeza que deseja deletar esse quizz?")
 
-	if (answer) {
-		const quizzSorted = myQuizzes.filter(el => el.id === id);
-		const myOtherQuizzes = myQuizzes.filter(el => el.id !== id);
+if (answer) {
+	const quizzSorted = myQuizzes.filter(el => el.id === id);
+	const myOtherQuizzes = myQuizzes.filter(el => el.id !== id);
 
-		myQuizzes = myOtherQuizzes;
-		sendToLocalStorage();
+	myQuizzes = myOtherQuizzes;
+	sendToLocalStorage();
 
-		const headers = {
-			'Secret-Key': quizzSorted[0].key
-		}
-
-		axios.delete(`${url}/${id}`, { headers }).then(() => {
-			alert("Quizz Deletado")
-			window.location.reload();
-		});
-	} else {
-		window.location.reload();
+	const headers = {
+		'Secret-Key': quizzSorted[0].key
 	}
+
+	axios.delete(`${url}/${id}`, { headers }).then(() => {
+		alert("Quizz Deletado")
+		window.location.reload();
+	});
+} else {
+	window.location.reload();
+}
 }

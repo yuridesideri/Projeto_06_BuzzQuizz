@@ -325,7 +325,9 @@ header h1 {
 	font-weight: 700;
 	font-size: 19px;
 	line-height: 25px;
+	word-break:break-all;
 	color: #484848;
+	min-width: 40%;
 }
 
 /*Navegação Pós-Finalização de Quizz*/
@@ -382,11 +384,9 @@ header h1 {
 	transition-duration: 1s;
 	color: green;
 }
-/*Essas classes devem ser colocadas de acordo sobre a classe questions-answer
-O texto está com inherit então pode colocar em divs acima que vai funcionar*/
 
 .end-screen-update-space {
-	padding-bottom: 85px; /*essa classe só é removida quando o quizz finaliza*/
+	padding-bottom: 85px; 
 }
 
 /* ---------------------------- CREATION SCREEN ---------------------------- */
