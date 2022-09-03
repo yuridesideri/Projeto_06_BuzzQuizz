@@ -125,10 +125,10 @@ function renderQuestions(numQuestions) {
 	questions.innerHTML = `
     <legend>Crie suas perguntas</legend>
 
-    <div class="question-wrapper question-1">
+    <div class="question-wrapper question-1" data-identifier="question-form">
       <div class="question-header">
         <h2>Pergunta 1</h2>
-        <img onclick="showQuestion(this)" src="src/images/edit.svg" alt="edit icon">
+        <img onclick="showQuestion(this)" src="src/images/edit.svg" alt="edit icon" data-identifier="expand">
       </div>
 
       <div class="question-body">
@@ -172,7 +172,7 @@ function renderQuestions(numQuestions) {
 
 	for (let i = 2; i <= numQuestions; i++) {
 		questions.innerHTML += `
-      <div class="question-wrapper question-${i}">
+      <div class="question-wrapper question-${i}" data-identifier="question-form">
         <div class="question-header">
           <h2>Pergunta ${i}</h2>
           <img onclick="showQuestion(this)" src="src/images/edit.svg" alt="edit icon" data-identifier="expand">
@@ -230,7 +230,7 @@ function renderLevels(numLevels) {
 	levels.innerHTML = `
     <legend>Agora, decida os níveis</legend>
             
-    <div class="levels-wrapper level-1">
+    <div class="levels-wrapper level-1" data-identifier="level">
       <div class="level-header">
         <h2>Nível 1</h2>
         <img onclick="showLevel(this)" src="src/images/edit.svg" alt="edit icon" data-identifier="expand">
@@ -254,10 +254,10 @@ function renderLevels(numLevels) {
 
 	for (let i = 2; i <= numLevels; i++) {
 		levels.innerHTML += `
-      <div class="levels-wrapper level-${i}">
+      <div class="levels-wrapper level-${i}" data-identifier="level">
         <div class="level-header">
           <h2>Nível ${i}</h2>
-          <img onclick="showLevel(this)" src="src/images/edit.svg" alt="edit icon">
+          <img onclick="showLevel(this)" src="src/images/edit.svg" alt="edit icon" data-identifier="expand">
         </div>
 
         <div class="level-body hidden">
