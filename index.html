@@ -38,7 +38,9 @@
 				</div>
 				<div class="all-quizzes">
 					<p class="main-screen__title">Todos os Quizzes</p>
-					<div class="all-quizzes__quizz-list" data-identifier="general-quizzes"></div>
+					<div class="all-quizzes__quizz-list" data-identifier="general-quizzes">
+						
+					</div>
 					<div class="loading-all-quizzes-wrapper">
 						<div class="loading-all-quizzes">
 							<div class="lds-ripple">
@@ -51,7 +53,17 @@
 				</div>
 			</section>
 
-			<section class="quizz-screen end-screen-update-space hidden"></section>
+			<section class="quizz-screen end-screen-update-space hidden">
+				<div class="rendering-quizz-wrapper">
+					<div class="loading-all-quizzes">
+						<div class="lds-ripple">
+							<div></div>
+							<div></div>
+						</div>
+						<p>Carregando o Quizz...</p>
+					</div>
+				</div>
+			</section>
 
 			<section class="creation-screen hidden">
 				<form>
@@ -80,7 +92,18 @@
 					<fieldset class="creation-levels hidden"></fieldset>
 				</form>
 
-				<div class="created-quiz hidden"></div>
+				<div class="created-quiz hidden">
+					<div class="sending-quizz-wrapper">
+						<div class="loading-all-quizzes">
+							<div class="lds-ripple">
+								<div></div>
+								<div></div>
+							</div>
+							<p>Enviando seu Quizz...</p>
+						</div>
+					</div>
+				</div>
+				
 			</section>
 		</main>
 

@@ -36,13 +36,19 @@ function renderAllQuizzes(data) {
 	quizzes.innerHTML = "";
 
 	for (let i = 0; i < allQuizzes.length; i++) {
-		quizzes.innerHTML += `
-    <article onclick="enterQuizz(${allQuizzes[i].id})" class="quizz-list__quizz" data-identifier="quizz-card">
-      <img src="${allQuizzes[i].image}" alt="">
-      <div class="quizz-list__quizz__gradient"></div>
-      <span>${allQuizzes[i].title}</span>
-    </article>
-    `;
+		for (let j = 0; j < myQuizzes.length; j++) {
+			if (allQuizzes[i].id === myQuizzes[j].id) {
+				continue;
+			} else {
+				quizzes.innerHTML += `
+				<article onclick="enterQuizz(${allQuizzes[i].id})" class="quizz-list__quizz" data-identifier="quizz-card">
+					<img src="${allQuizzes[i].image}" alt="">
+					<div class="quizz-list__quizz__gradient"></div>
+					<span>${allQuizzes[i].title}</span>
+				</article>
+				`;
+			}
+		}
 	}
 }
 
@@ -58,6 +64,10 @@ function renderMyQuizzes() {
         <img src="${myQuizzes[i].image}" alt="">
         <div class="quizz-list__quizz__gradient"></div>
         <span>${myQuizzes[i].title}</span>
+				<div class="edit-delete">
+				<ion-icon onclick="editQuizz(${myQuizzes[i].id})" name="create-outline"></ion-icon>
+				<ion-icon onclick="deleteQuizz(${myQuizzes[i].id})" name="trash-outline"></ion-icon>
+			</div>
       </article>
       `;
 		}
@@ -126,7 +136,7 @@ function renderQuestions(numQuestions) {
         <label for="question-text"></label>
 
         <div class="color-picker">
-              <label for="question-background">Cor de fundo da pergunta</label>
+              <label for="question-background">Cor de fundo da pergunta:</label>
               <input type="color" id="question-background" name="question-background" placeholder="Cor de fundo da pergunta">
         </div>
           
@@ -173,7 +183,7 @@ function renderQuestions(numQuestions) {
           <label for="question-text"></label>
 
           <div class="color-picker">
-              <label for="question-background">Cor de fundo da pergunta</label>
+              <label for="question-background">Cor de fundo da pergunta:</label>
               <input type="color" id="question-background" name="question-background" placeholder="Cor de fundo da pergunta">
           </div>
           
