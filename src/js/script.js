@@ -35,20 +35,16 @@ function renderAllQuizzes(data) {
 	const quizzes = document.querySelector(".all-quizzes__quizz-list");
 	quizzes.innerHTML = "";
 
+	console.log(myQuizzes)
+
 	for (let i = 0; i < allQuizzes.length; i++) {
-		for (let j = 0; j < myQuizzes.length; j++) {
-			if (allQuizzes[i].id === myQuizzes[j].id) {
-				continue;
-			} else {
-				quizzes.innerHTML += `
-				<article onclick="enterQuizz(${allQuizzes[i].id})" class="quizz-list__quizz" data-identifier="quizz-card">
-					<img src="${allQuizzes[i].image}" alt="">
-					<div class="quizz-list__quizz__gradient"></div>
-					<span>${allQuizzes[i].title}</span>
-				</article>
-				`;
-			}
-		}
+		quizzes.innerHTML += `
+			<article onclick="enterQuizz(${allQuizzes[i].id})" class="quizz-list__quizz" data-identifier="quizz-card">
+				<img src="${allQuizzes[i].image}" alt="">
+				<div class="quizz-list__quizz__gradient"></div>
+				<span>${allQuizzes[i].title}</span>
+			</article>
+		`;
 	}
 }
 
@@ -656,78 +652,76 @@ function renderQuizz(render) {
 }
 
 function sendNewQuizz() {
-	let quizzModelo = {
-		title: "Título teste 1",
-		image: "https://http.cat/411.jpg",
-		questions: [
-			{
-				title: "Título da pergunta 1",
-				color: "#123456",
-				answers: [
-					{
-						text: "Texto da resposta 1",
-						image: "https://http.cat/411.jpg",
-						isCorrectAnswer: true,
-					},
-					{
-						text: "Texto da resposta 2",
-						image: "https://http.cat/412.jpg",
-						isCorrectAnswer: false,
-					},
-				],
-			},
-			{
-				title: "Título da pergunta 2",
-				color: "#123456",
-				answers: [
-					{
-						text: "Texto da resposta 1",
-						image: "https://http.cat/411.jpg",
-						isCorrectAnswer: true,
-					},
-					{
-						text: "Texto da resposta 2",
-						image: "https://http.cat/412.jpg",
-						isCorrectAnswer: false,
-					},
-				],
-			},
-			{
-				title: "Título da pergunta 3",
-				color: "#123456",
-				answers: [
-					{
-						text: "Texto da resposta 1",
-						image: "https://http.cat/411.jpg",
-						isCorrectAnswer: true,
-					},
-					{
-						text: "Texto da resposta 2",
-						image: "https://http.cat/412.jpg",
-						isCorrectAnswer: false,
-					},
-				],
-			},
-		],
-		levels: [
-			{
-				title: "Título do nível 1",
-				image: "https://http.cat/411.jpg",
-				text: "Descrição do nível 1",
-				minValue: 0,
-			},
-			{
-				title: "Título do nível 2",
-				image: "https://http.cat/412.jpg",
-				text: "Descrição do nível 2",
-				minValue: 50,
-			},
-		],
-	};
+	// let quizzModelo = {
+	// 	title: "Título teste teste 4",
+	// 	image: "https://http.cat/411.jpg",
+	// 	questions: [
+	// 		{
+	// 			title: "Título da pergunta 1",
+	// 			color: "#123456",
+	// 			answers: [
+	// 				{
+	// 					text: "Texto da resposta 1",
+	// 					image: "https://http.cat/411.jpg",
+	// 					isCorrectAnswer: true,
+	// 				},
+	// 				{
+	// 					text: "Texto da resposta 2",
+	// 					image: "https://http.cat/412.jpg",
+	// 					isCorrectAnswer: false,
+	// 				},
+	// 			],
+	// 		},
+	// 		{
+	// 			title: "Título da pergunta 2",
+	// 			color: "#123456",
+	// 			answers: [
+	// 				{
+	// 					text: "Texto da resposta 1",
+	// 					image: "https://http.cat/411.jpg",
+	// 					isCorrectAnswer: true,
+	// 				},
+	// 				{
+	// 					text: "Texto da resposta 2",
+	// 					image: "https://http.cat/412.jpg",
+	// 					isCorrectAnswer: false,
+	// 				},
+	// 			],
+	// 		},
+	// 		{
+	// 			title: "Título da pergunta 3",
+	// 			color: "#123456",
+	// 			answers: [
+	// 				{
+	// 					text: "Texto da resposta 1",
+	// 					image: "https://http.cat/411.jpg",
+	// 					isCorrectAnswer: true,
+	// 				},
+	// 				{
+	// 					text: "Texto da resposta 2",
+	// 					image: "https://http.cat/412.jpg",
+	// 					isCorrectAnswer: false,
+	// 				},
+	// 			],
+	// 		},
+	// 	],
+	// 	levels: [
+	// 		{
+	// 			title: "Título do nível 1",
+	// 			image: "https://http.cat/411.jpg",
+	// 			text: "Descrição do nível 1",
+	// 			minValue: 0,
+	// 		},
+	// 		{
+	// 			title: "Título do nível 2",
+	// 			image: "https://http.cat/412.jpg",
+	// 			text: "Descrição do nível 2",
+	// 			minValue: 50,
+	// 		},
+	// 	],
+	// };
 
-	let quizz = newQuizz();
-
-	console.log(quizz);
+	const quizz = newQuizz();
 
 	const promisse = axios.post(`${url}`, quizz);
 	promisse.then(getQuizzInfo);
@@ -738,11 +732,14 @@ function getQuizzInfo(data) {
 
 	myQuizzes.push(data.data);
 
-
-	const myQuizzesSerialized = JSON.stringify(myQuizzes);
-	localStorage.setItem("myQuizzes", myQuizzesSerialized);
+	sendToLocalStorage();
 	renderMyQuizzes();
 	renderCreatedQuizz();
+}
+
+function sendToLocalStorage() {
+	const myQuizzesSerialized = JSON.stringify(myQuizzes);
+	localStorage.setItem("myQuizzes", myQuizzesSerialized);
 }
 
 function callLocalStorage() {
@@ -754,7 +751,7 @@ function callLocalStorage() {
 }
 
 function getQuizzID() {
-	let id = myQuizzes[myQuizzes.length - 1].id;
+	const id = myQuizzes[myQuizzes.length - 1].id;
 	return id;
 }
 
@@ -825,4 +822,27 @@ function loadEndGame()
 		rightAnswers: 0,
 		levelsStorage: 0
 	};
+}
+
+function deleteQuizz(id) {
+	const answer = confirm("Tem certeza que deseja deletar esse quizz?")
+
+	if (answer) {
+		const quizzSorted = myQuizzes.filter(el => el.id === id);
+		const myOtherQuizzes = myQuizzes.filter(el => el.id !== id);
+
+		myQuizzes = myOtherQuizzes;
+		sendToLocalStorage();
+
+		const headers = {
+			'Secret-Key': quizzSorted[0].key
+		}
+
+		axios.delete(`${url}/${id}`, { headers }).then(() => {
+			alert("Quizz Deletado")
+			window.location.reload();
+		});
+	} else {
+		window.location.reload();
+	}
 }

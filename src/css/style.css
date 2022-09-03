@@ -9,7 +9,7 @@ header {
 	height: 69px;
 	position: fixed;
 	top: 0;
-	z-index: 2;
+	z-index: 3;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -151,6 +151,7 @@ header h1 {
 	width: 43px;
 	height: 87px;
 	position: absolute;
+  z-index: 2;
 	right: 0;
 	top: 10px;
 	display: flex;
