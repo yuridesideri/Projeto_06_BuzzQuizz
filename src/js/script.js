@@ -466,10 +466,10 @@ const validateCorrectAnswer = () => {
 
 const validateIncorrectAnswer = () => {
 	const answers = document.querySelectorAll("input[name=incorrect-answer-1]");
-	
+
 	for (let i = 0; i < answers.length; i++) {
 		let answer = answers[i].value;
-
+		
 		if (answer.length === 0) {
 			alert("Cada pergunta deve ter pelo menos uma resposta incorreta")
 			return false;
@@ -482,26 +482,52 @@ const validateIncorrectAnswer = () => {
 const validateAnswersImages = () => {
 	const images = document.querySelectorAll(".answers-image");
 	const regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-	let hasSomeUrl = false;
 
 	for (let i = 0; i < images.length; i++) {
 		let image = images[i].value;
 
-		if (regex.test(image)) {
-			hasSomeUrl = true;
+		if (image !== "" && !regex.test(image)) {
+			alert("A imagem deve ser uma URL");
+			return false;
 		}
-	}
-
-	if (hasSomeUrl === false) {
-		alert("A imagem deve ser uma URL");
-		return false;
 	}
 
 	return true;
 };
 
+const urlRegex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+const validateAnswerURLPair = () => {
+	const answerTypes = [
+		"question-correct-answer",
+		"incorrect-answer-1",
+		"incorrect-answer-2",
+		"incorrect-answer-3",
+	];
+
+	for (let i = 0; i < answerTypes.length; i++) {
+		const answerType = answerTypes[i];
+		const selector = `input[name=${answerType}]`;
+		const answers = document.querySelectorAll(selector);
+
+		for (let j = 0; j < answers.length; j++) {
+			const answer = answers[j];
+			const url = answer.nextElementSibling.nextElementSibling;
+
+			if (answer.value !== "" && !urlRegex.test(url.value)) {
+				alert("Cada resposta deve conter uma URL correspondente.");
+				return false;
+			}
+		}
+	}
+	return true;
+};
+
 const validateFormQuestions = () => {
-	if (validateQuestionText() === true && validateCorrectAnswer() === true && validateIncorrectAnswer() === true && validateAnswersImages() === true) {
+	if (   validateQuestionText()    === true
+		&& validateCorrectAnswer()   === true
+		&& validateIncorrectAnswer() === true
+		&& validateAnswersImages()   === true
+		&& validateAnswerURLPair()   === true) {
 		return true;
 	}
 };
