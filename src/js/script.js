@@ -68,9 +68,7 @@ function renderMyQuizzes() {
 
 /* ---------------- FUNCOES DOS BOTOES DENTRO DO FORMS (CRIAÇÃO DO QUIZZ) ---------------- */
 
-function goToFormQuestions(event) {
-	event.preventDefault();
-
+function goToFormQuestions() {
 	if (validateBasicInfo() === true) {
 		gettingBasicInfo();
 		document.querySelector(".creation-basic-info").classList.add("hidden");
@@ -78,16 +76,14 @@ function goToFormQuestions(event) {
 	}
 }
 
-function goToFormLevels(event) {
-	event.preventDefault();
+function goToFormLevels() {
 	if (validateFormQuestions() === true) {
 		document.querySelector(".creation-questions").classList.add("hidden");
 		document.querySelector(".creation-levels").classList.remove("hidden");
 	}
 }
 
-function goToSucessPageForm(event) {
-	event.preventDefault();
+function goToSucessPageForm() {
 	if (validateLevels()) {
 		document.querySelector(".creation-levels").classList.add("hidden");
 		document.querySelector(".created-quiz").classList.remove("hidden");
@@ -213,7 +209,7 @@ function renderQuestions(numQuestions) {
 	}
 
 	questions.innerHTML += `
-  <button class="questions-button">Prosseguir para criar níveis</button>
+  <button type="button" class="questions-button">Prosseguir para criar níveis</button>
   `;
 }
 
@@ -271,7 +267,7 @@ function renderLevels(numLevels) {
 	}
 
 	levels.innerHTML += `
-  <button class="submit-button">Finalizar Quizz</button>
+  <button type="button" class="submit-button">Finalizar Quizz</button>
   `;
 }
 
@@ -584,7 +580,6 @@ function newQuizz() {
 	newQuizz.levels = levels;
 
 	return newQuizz;
-	//----------------------------------------------------------------------------------------
 }
 
 /*---------------------------- FUNÇÕES DE EXBIÇÃO DO QUIZZ -------------------------------*/
@@ -711,7 +706,11 @@ function sendNewQuizz() {
 		],
 	};
 
-	const promisse = axios.post(`${url}`, quizzModelo);
+	let quizz = newQuizz();
+
+	console.log(quizz);
+
+	const promisse = axios.post(`${url}`, quizz);
 	promisse.then(getQuizzInfo);
 }
 
