@@ -415,7 +415,10 @@ const validateQuestionText = () => {
 		let question = questions[i];
 		let text = question.value;
 
-		if (text.length < 20) {
+		if (text.length === 0) {
+			alert("O texto das perguntas não pode ficar em branco");
+			return false
+		} else if (text.length < 20){
 			alert("O texto da pergunta deve ter pelo menos 20 caracteres");
 			return false;
 		}
@@ -445,7 +448,7 @@ const validateCorrectAnswer = () => {
 	const answers = document.querySelectorAll("input[name=question-correct-answer]");
 
 	if (answers.length === 0) {
-		alert("A resposta correta não pode ficar em branco");
+		alert("Cada pergunta tem que ter pelo menos uma resposta correta");
 		return false;
 	}
 
@@ -453,7 +456,7 @@ const validateCorrectAnswer = () => {
 		let answer = answers[i].value;
 
 		if (answer.length === 0) {
-			alert("A resposta correta não pode ficar em branco");
+			alert("Cada pergunta tem que ter pelo menos uma resposta correta");
 			return false;
 		}
 	}
@@ -462,20 +465,15 @@ const validateCorrectAnswer = () => {
 };
 
 const validateIncorrectAnswer = () => {
-	const answers = document.querySelectorAll(".incorrect-answers");
-	let hasSomeAnswer = false;
-
+	const answers = document.querySelectorAll("input[name=incorrect-answer-1]");
+	
 	for (let i = 0; i < answers.length; i++) {
 		let answer = answers[i].value;
 
-		if (answer.length !== 0) {
-			hasSomeAnswer = true;
+		if (answer.length === 0) {
+			alert("Cada pergunta deve ter pelo menos uma resposta incorreta")
+			return false;
 		}
-	}
-
-	if (hasSomeAnswer === false) {
-		alert("Você deve inserir pelo menos uma resposta incorreta para cada pergunta");
-		return false;
 	}
 
 	return true;
@@ -503,7 +501,7 @@ const validateAnswersImages = () => {
 };
 
 const validateFormQuestions = () => {
-	if (validateCorrectAnswer() === true && validateIncorrectAnswer() === true && validateAnswersImages() === true) {
+	if (validateQuestionText() === true && validateCorrectAnswer() === true && validateIncorrectAnswer() === true && validateAnswersImages() === true) {
 		return true;
 	}
 };
