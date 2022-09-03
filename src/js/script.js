@@ -35,14 +35,16 @@ function renderAllQuizzes(data) {
 	const quizzes = document.querySelector(".all-quizzes__quizz-list");
 	quizzes.innerHTML = "";
 
+	console.log(myQuizzes)
+
 	for (let i = 0; i < allQuizzes.length; i++) {
 		quizzes.innerHTML += `
-    <article onclick="enterQuizz(${allQuizzes[i].id})" class="quizz-list__quizz" data-identifier="quizz-card">
-      <img src="${allQuizzes[i].image}" alt="">
-      <div class="quizz-list__quizz__gradient"></div>
-      <span>${allQuizzes[i].title}</span>
-    </article>
-    `;
+			<article onclick="enterQuizz(${allQuizzes[i].id})" class="quizz-list__quizz" data-identifier="quizz-card">
+				<img src="${allQuizzes[i].image}" alt="">
+				<div class="quizz-list__quizz__gradient"></div>
+				<span>${allQuizzes[i].title}</span>
+			</article>
+		`;
 	}
 }
 
@@ -58,6 +60,10 @@ function renderMyQuizzes() {
         <img src="${myQuizzes[i].image}" alt="">
         <div class="quizz-list__quizz__gradient"></div>
         <span>${myQuizzes[i].title}</span>
+				<div class="edit-delete">
+				<ion-icon onclick="editQuizz(${myQuizzes[i].id})" name="create-outline"></ion-icon>
+				<ion-icon onclick="deleteQuizz(${myQuizzes[i].id})" name="trash-outline"></ion-icon>
+			</div>
       </article>
       `;
 		}
@@ -115,10 +121,10 @@ function renderQuestions(numQuestions) {
 	questions.innerHTML = `
     <legend>Crie suas perguntas</legend>
 
-    <div class="question-wrapper question-1">
+    <div class="question-wrapper question-1" data-identifier="question-form">
       <div class="question-header">
         <h2>Pergunta 1</h2>
-        <img onclick="showQuestion(this)" src="src/images/edit.svg" alt="edit icon">
+        <img onclick="showQuestion(this)" src="src/images/edit.svg" alt="edit icon" data-identifier="expand">
       </div>
 
       <div class="question-body">
@@ -126,7 +132,7 @@ function renderQuestions(numQuestions) {
         <label for="question-text"></label>
 
         <div class="color-picker">
-              <label for="question-background">Cor de fundo da pergunta</label>
+              <label for="question-background">Cor de fundo da pergunta:</label>
               <input type="color" id="question-background" name="question-background" placeholder="Cor de fundo da pergunta">
         </div>
           
@@ -162,7 +168,7 @@ function renderQuestions(numQuestions) {
 
 	for (let i = 2; i <= numQuestions; i++) {
 		questions.innerHTML += `
-      <div class="question-wrapper question-${i}">
+      <div class="question-wrapper question-${i}" data-identifier="question-form">
         <div class="question-header">
           <h2>Pergunta ${i}</h2>
           <img onclick="showQuestion(this)" src="src/images/edit.svg" alt="edit icon" data-identifier="expand">
@@ -173,7 +179,7 @@ function renderQuestions(numQuestions) {
           <label for="question-text"></label>
 
           <div class="color-picker">
-              <label for="question-background">Cor de fundo da pergunta</label>
+              <label for="question-background">Cor de fundo da pergunta:</label>
               <input type="color" id="question-background" name="question-background" placeholder="Cor de fundo da pergunta">
           </div>
           
@@ -220,7 +226,7 @@ function renderLevels(numLevels) {
 	levels.innerHTML = `
     <legend>Agora, decida os níveis</legend>
             
-    <div class="levels-wrapper level-1">
+    <div class="levels-wrapper level-1" data-identifier="level">
       <div class="level-header">
         <h2>Nível 1</h2>
         <img onclick="showLevel(this)" src="src/images/edit.svg" alt="edit icon" data-identifier="expand">
@@ -244,10 +250,10 @@ function renderLevels(numLevels) {
 
 	for (let i = 2; i <= numLevels; i++) {
 		levels.innerHTML += `
-      <div class="levels-wrapper level-${i}">
+      <div class="levels-wrapper level-${i}" data-identifier="level">
         <div class="level-header">
           <h2>Nível ${i}</h2>
-          <img onclick="showLevel(this)" src="src/images/edit.svg" alt="edit icon">
+          <img onclick="showLevel(this)" src="src/images/edit.svg" alt="edit icon" data-identifier="expand">
         </div>
 
         <div class="level-body hidden">
@@ -409,7 +415,10 @@ const validateQuestionText = () => {
 		let question = questions[i];
 		let text = question.value;
 
-		if (text.length < 20) {
+		if (text.length === 0) {
+			alert("O texto das perguntas não pode ficar em branco");
+			return false
+		} else if (text.length < 20){
 			alert("O texto da pergunta deve ter pelo menos 20 caracteres");
 			return false;
 		}
@@ -439,7 +448,7 @@ const validateCorrectAnswer = () => {
 	const answers = document.querySelectorAll("input[name=question-correct-answer]");
 
 	if (answers.length === 0) {
-		alert("A resposta correta não pode ficar em branco");
+		alert("Cada pergunta tem que ter pelo menos uma resposta correta");
 		return false;
 	}
 
@@ -447,7 +456,7 @@ const validateCorrectAnswer = () => {
 		let answer = answers[i].value;
 
 		if (answer.length === 0) {
-			alert("A resposta correta não pode ficar em branco");
+			alert("Cada pergunta tem que ter pelo menos uma resposta correta");
 			return false;
 		}
 	}
@@ -456,20 +465,15 @@ const validateCorrectAnswer = () => {
 };
 
 const validateIncorrectAnswer = () => {
-	const answers = document.querySelectorAll(".incorrect-answers");
-	let hasSomeAnswer = false;
-
+	const answers = document.querySelectorAll("input[name=incorrect-answer-1]");
+	
 	for (let i = 0; i < answers.length; i++) {
 		let answer = answers[i].value;
 
-		if (answer.length !== 0) {
-			hasSomeAnswer = true;
+		if (answer.length === 0) {
+			alert("Cada pergunta deve ter pelo menos uma resposta incorreta")
+			return false;
 		}
-	}
-
-	if (hasSomeAnswer === false) {
-		alert("Você deve inserir pelo menos uma resposta incorreta para cada pergunta");
-		return false;
 	}
 
 	return true;
@@ -497,7 +501,7 @@ const validateAnswersImages = () => {
 };
 
 const validateFormQuestions = () => {
-	if (validateCorrectAnswer() === true && validateIncorrectAnswer() === true && validateAnswersImages() === true) {
+	if (validateQuestionText() === true && validateCorrectAnswer() === true && validateIncorrectAnswer() === true && validateAnswersImages() === true) {
 		return true;
 	}
 };
@@ -646,78 +650,76 @@ function renderQuizz(render) {
 }
 
 function sendNewQuizz() {
-	let quizzModelo = {
-		title: "Título teste 1",
-		image: "https://http.cat/411.jpg",
-		questions: [
-			{
-				title: "Título da pergunta 1",
-				color: "#123456",
-				answers: [
-					{
-						text: "Texto da resposta 1",
-						image: "https://http.cat/411.jpg",
-						isCorrectAnswer: true,
-					},
-					{
-						text: "Texto da resposta 2",
-						image: "https://http.cat/412.jpg",
-						isCorrectAnswer: false,
-					},
-				],
-			},
-			{
-				title: "Título da pergunta 2",
-				color: "#123456",
-				answers: [
-					{
-						text: "Texto da resposta 1",
-						image: "https://http.cat/411.jpg",
-						isCorrectAnswer: true,
-					},
-					{
-						text: "Texto da resposta 2",
-						image: "https://http.cat/412.jpg",
-						isCorrectAnswer: false,
-					},
-				],
-			},
-			{
-				title: "Título da pergunta 3",
-				color: "#123456",
-				answers: [
-					{
-						text: "Texto da resposta 1",
-						image: "https://http.cat/411.jpg",
-						isCorrectAnswer: true,
-					},
-					{
-						text: "Texto da resposta 2",
-						image: "https://http.cat/412.jpg",
-						isCorrectAnswer: false,
-					},
-				],
-			},
-		],
-		levels: [
-			{
-				title: "Título do nível 1",
-				image: "https://http.cat/411.jpg",
-				text: "Descrição do nível 1",
-				minValue: 0,
-			},
-			{
-				title: "Título do nível 2",
-				image: "https://http.cat/412.jpg",
-				text: "Descrição do nível 2",
-				minValue: 50,
-			},
-		],
-	};
+	// let quizzModelo = {
+	// 	title: "Título teste teste 4",
+	// 	image: "https://http.cat/411.jpg",
+	// 	questions: [
+	// 		{
+	// 			title: "Título da pergunta 1",
+	// 			color: "#123456",
+	// 			answers: [
+	// 				{
+	// 					text: "Texto da resposta 1",
+	// 					image: "https://http.cat/411.jpg",
+	// 					isCorrectAnswer: true,
+	// 				},
+	// 				{
+	// 					text: "Texto da resposta 2",
+	// 					image: "https://http.cat/412.jpg",
+	// 					isCorrectAnswer: false,
+	// 				},
+	// 			],
+	// 		},
+	// 		{
+	// 			title: "Título da pergunta 2",
+	// 			color: "#123456",
+	// 			answers: [
+	// 				{
+	// 					text: "Texto da resposta 1",
+	// 					image: "https://http.cat/411.jpg",
+	// 					isCorrectAnswer: true,
+	// 				},
+	// 				{
+	// 					text: "Texto da resposta 2",
+	// 					image: "https://http.cat/412.jpg",
+	// 					isCorrectAnswer: false,
+	// 				},
+	// 			],
+	// 		},
+	// 		{
+	// 			title: "Título da pergunta 3",
+	// 			color: "#123456",
+	// 			answers: [
+	// 				{
+	// 					text: "Texto da resposta 1",
+	// 					image: "https://http.cat/411.jpg",
+	// 					isCorrectAnswer: true,
+	// 				},
+	// 				{
+	// 					text: "Texto da resposta 2",
+	// 					image: "https://http.cat/412.jpg",
+	// 					isCorrectAnswer: false,
+	// 				},
+	// 			],
+	// 		},
+	// 	],
+	// 	levels: [
+	// 		{
+	// 			title: "Título do nível 1",
+	// 			image: "https://http.cat/411.jpg",
+	// 			text: "Descrição do nível 1",
+	// 			minValue: 0,
+	// 		},
+	// 		{
+	// 			title: "Título do nível 2",
+	// 			image: "https://http.cat/412.jpg",
+	// 			text: "Descrição do nível 2",
+	// 			minValue: 50,
+	// 		},
+	// 	],
+	// };
 
-	let quizz = newQuizz();
-
-	console.log(quizz);
+	const quizz = newQuizz();
 
 	const promisse = axios.post(`${url}`, quizz);
 	promisse.then(getQuizzInfo);
@@ -728,11 +730,14 @@ function getQuizzInfo(data) {
 
 	myQuizzes.push(data.data);
 
-
-	const myQuizzesSerialized = JSON.stringify(myQuizzes);
-	localStorage.setItem("myQuizzes", myQuizzesSerialized);
+	sendToLocalStorage();
 	renderMyQuizzes();
 	renderCreatedQuizz();
+}
+
+function sendToLocalStorage() {
+	const myQuizzesSerialized = JSON.stringify(myQuizzes);
+	localStorage.setItem("myQuizzes", myQuizzesSerialized);
 }
 
 function callLocalStorage() {
@@ -744,7 +749,7 @@ function callLocalStorage() {
 }
 
 function getQuizzID() {
-	let id = myQuizzes[myQuizzes.length - 1].id;
+	const id = myQuizzes[myQuizzes.length - 1].id;
 	return id;
 }
 
@@ -815,4 +820,27 @@ function loadEndGame()
 		rightAnswers: 0,
 		levelsStorage: 0
 	};
+}
+
+function deleteQuizz(id) {
+	const answer = confirm("Tem certeza que deseja deletar esse quizz?")
+
+	if (answer) {
+		const quizzSorted = myQuizzes.filter(el => el.id === id);
+		const myOtherQuizzes = myQuizzes.filter(el => el.id !== id);
+
+		myQuizzes = myOtherQuizzes;
+		sendToLocalStorage();
+
+		const headers = {
+			'Secret-Key': quizzSorted[0].key
+		}
+
+		axios.delete(`${url}/${id}`, { headers }).then(() => {
+			alert("Quizz Deletado")
+			window.location.reload();
+		});
+	} else {
+		window.location.reload();
+	}
 }
