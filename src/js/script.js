@@ -593,13 +593,13 @@ function quizzGetCorrectAnswer(el)
 }
 /*---------------------------- FUNÇÕES DE EXBIÇÃO DO QUIZZ -------------------------------*/
 
-function downloadQuizz(id) {
-	let futureData;
-	const promise = axios.get(`${url}/${id}`).then(data => this.futureData = data.data);
+async function downloadQuizz(id) {
+	const promise = await axios.get(`${url}/${id}`);
+	data = promise.data;
 	quizzInGame.gameOn = true;
-	quizzInGame.questions = futureData.questions.length;
-	quizzInGame.levelsStorage = futureData.levels;
-	quizzHtmlCreation(futureData);
+	quizzInGame.questions = data.questions.length;
+	quizzInGame.levelsStorage = data.levels;
+	quizzHtmlCreation(data);
 }
 
 function quizzHtmlCreation(data) {
