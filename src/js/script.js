@@ -191,6 +191,7 @@ function renderQuestions(numQuestions) {
           <label for="incorrect-answer-1"></label>
 
           <input type="url" id="incorret-image-1" name="incorrect-image-1" placeholder="URL da imagem 1" class="answers-image question-body__answer">
+		  <label for="incorrect-image-1"></label>
 
           <input type="text" id="incorrect-answer-2" name="incorrect-answer-2" placeholder="Resposta incorreta 2" class="incorrect-answers question-body__answer">
           <label for="incorrect-answer-2"></label>
@@ -547,8 +548,6 @@ function newQuizz() {
 		questions: [],
 		levels: [],
 	};
-	const levelsObject = [];
-	const finalQuestionObject = [];
 
 	const questions = Array.from(document.querySelectorAll(".question-body")).map(el => 
 		{
@@ -558,10 +557,10 @@ function newQuizz() {
 					{
 						return ind%2 === 0 ? 
 						{text: arr[ind].value,
-						image: arr[ind++].value,
-						isCorrectAnswer: arr[ind].getAttribute('name') === 'question-correct-answer'} :
+						image: arr[ind+=1].value,
+						isCorrectAnswer: quizzGetCorrectAnswer(el)} :
 						'';
-					}).filter(el => el !== '' && el !== null)
+					}).filter(el => (el !== '') && (el !== null))
 				}
 		});
 
@@ -582,6 +581,16 @@ function newQuizz() {
 	return newQuizz;
 }
 
+function quizzGetCorrectAnswer(el)
+{
+	if (el.getAttribute('name') === 'question-correct-answer')
+	{
+		return true;
+	}
+	else{
+		return false;
+	}
+}
 /*---------------------------- FUNÇÕES DE EXBIÇÃO DO QUIZZ -------------------------------*/
 
 function downloadQuizz(id) {
