@@ -560,7 +560,7 @@ function newQuizz() {
 						image: arr[ind+=1].value,
 						isCorrectAnswer: quizzGetCorrectAnswer(el)} :
 						'';
-					}).filter(el => (el !== '') && (el !== null))
+					}).filter(el => (el !== '') && (el !== null) && !(el.image === '' || el.text === ''))
 				}
 		});
 
