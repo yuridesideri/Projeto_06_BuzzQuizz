@@ -810,6 +810,7 @@ function randomizeQuizz(quiz)
 
 function checkCorrect(el)
 {
+
 	const parentNode = el.closest('.quizz-questions-options-div');
 	parentNode.querySelectorAll('div[onclick="checkCorrect(this)"]').forEach(el => el.removeAttribute('onclick')); //Removes all onClicks
 	el.classList.add('lock-selected');
@@ -819,6 +820,8 @@ function checkCorrect(el)
 	el.getAttribute('class').includes('correct-answer')? quizzInGame.gameOn === true ?  quizzInGame.rightAnswers+= 1: '' : 0;
 	quizzInGame.selected += 1;
 	checkEndGame();
+
+	((quizzInGame.selected !== 0) && (quizzInGame.selected !== quizzInGame.questions))? setTimeout(() => {el.closest('.quizz-questions__quizz-box').nextElementSibling.scrollIntoView({behavior: 'smooth', block: 'center'})}, 2000) : null;
 }
 
 function checkEndGame()
@@ -844,7 +847,7 @@ function loadEndGame()
 	</div>
 	<div class="quizz-completed__buttons">
 		<button class="quizz-completed__restart-quizz">Reiniciar Quizz</button>
-		<p class="quizz-completed__go-home">Voltar pra home</p>
+		<p onclick="backToMain()" class="quizz-completed__go-home">Voltar pra home</p>
 	</div>
 	</section>
 	
@@ -852,7 +855,7 @@ function loadEndGame()
 
 	renderQuizz(finalHTML);
 	document.querySelector('.quizz-screen').classList.add('end-screen-update-space');
-	document.querySelector('.quizz-completed').scrollIntoView({behavior: 'smooth'});
+	setTimeout( () =>{document.querySelector('.quizz-completed').scrollIntoView({behavior: 'smooth'})}, 2000);
 
 	
 	quizzInGame.gameOn = false;
@@ -862,17 +865,17 @@ function loadEndGame()
 
 function resetQuizz()
 {
-document.querySelector(".quizz-screen").innerHTML = `
-<div class="rendering-quizz-wrapper">
-				<div class="loading-all-quizzes">
-					<div class="lds-ripple">
-						<div></div>
-						<div></div>
+	document.querySelector(".quizz-screen").innerHTML = `
+	<div class="rendering-quizz-wrapper">
+					<div class="loading-all-quizzes">
+						<div class="lds-ripple">
+							<div></div>
+							<div></div>
+						</div>
+						<p>Carregando o Quizz...</p>
 					</div>
-					<p>Carregando o Quizz...</p>
 				</div>
-			</div>
-`;
+	`;
 }
 
 function deleteQuizz(id) {
