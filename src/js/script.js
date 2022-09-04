@@ -514,7 +514,7 @@ const validateAnswerURLPair = () => {
 			const answer = answers[j];
 			const url = answer.nextElementSibling.nextElementSibling;
 
-			if (answer.value !== "" && !urlRegex.test(url.value)) {
+			if (answer.value !== "" && url && !urlRegex.test(url.value)) {
 				alert("Cada resposta deve conter uma URL correspondente.");
 				return false;
 			}
