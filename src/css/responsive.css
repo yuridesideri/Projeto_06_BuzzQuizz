@@ -91,4 +91,42 @@
 		font-size: 18px;
 		line-height: 21px;
 	}
+
+  /* ---------------------------- CREATION SCREEN ---------------------------- */
+
+  .creation-screen {
+    margin-top: 106px;
+  }
+
+  .basic-info-button,
+  .questions-button,
+  .submit-button {
+    margin-top: 30px;
+    width: 324px;
+    font-size: 18px;
+    line-height: 21px;
+  }
+
+  .basic-info-wrapper,
+  .question-wrapper,
+  .levels-wrapper {
+    max-width: 375px;
+    padding: 8px 18px;
+  }
+
+  .homepage-button {
+    font-size: 18px;
+    line-height: 21px;
+  } 
+
+  .open-quiz-button {
+    margin-top: 25px;
+    height: 44px;
+  }
+
+  .created-quiz-image {
+    width: 340px;
+    height: 181px;
+  }
+
 }

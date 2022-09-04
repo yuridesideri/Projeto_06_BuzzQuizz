@@ -121,7 +121,7 @@ function renderQuestions(numQuestions) {
     <legend>Crie suas perguntas</legend>
 
     <div class="question-wrapper question-1" data-identifier="question-form">
-      <div class="question-header">
+      <div class="question-header-cr">
         <h2>Pergunta 1</h2>
         <img onclick="showQuestion(this)" src="src/images/edit.svg" alt="edit icon" data-identifier="expand">
       </div>
@@ -168,7 +168,7 @@ function renderQuestions(numQuestions) {
 	for (let i = 2; i <= numQuestions; i++) {
 		questions.innerHTML += `
       <div class="question-wrapper question-${i}" data-identifier="question-form">
-        <div class="question-header">
+        <div class="question-header-cr">
           <h2>Pergunta ${i}</h2>
           <img onclick="showQuestion(this)" src="src/images/edit.svg" alt="edit icon" data-identifier="expand">
         </div>
@@ -654,7 +654,7 @@ function quizzHtmlCreation(data) {
       ${quizzObject.questions.map((el) => {
 		return `
           <div class="quizz-questions__quizz-box">
-            <div class="quizz-question-header-div" style="bakcground-color:${el.color}" data-identifier="question">
+            <div class="quizz-question-header-div" style="background-color:${el.color}" data-identifier="question">
               <p class="question-header">${el.title}</p>
             </div>
             <div class="quizz-questions-options-div">

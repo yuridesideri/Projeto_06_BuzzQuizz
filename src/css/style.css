@@ -244,6 +244,7 @@ header h1 {
 	max-height: 20%;
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	background-color: red;
 }
 .question-header {
@@ -445,12 +446,10 @@ header h1 {
 
 #question-background::-webkit-color-swatch {
 	border-radius: 5px;
-	border: none;
 }
 
 #question-background::-moz-color-swatch {
 	border-radius: 5px;
-	border: none;
 }
 
 .creation-screen label {
@@ -508,7 +507,7 @@ header h1 {
 	flex-direction: column;
 }
 
-.question-header,
+.question-header-cr,
 .level-header {
 	display: flex;
 	justify-content: space-between;
@@ -578,12 +577,14 @@ header h1 {
 
 .open-quiz-button {
 	width: 220px;
-	margin-bottom: 20px;
-	margin-top: 46px;
+	margin-bottom: 10px;
+	margin-top: 45px;
 }
 
 .homepage-button {
+	font-weight: 400;
 	font-size: 21px;
+	line-height: 25px;
 	color: #818181;
 	background: transparent;
 	border: none;
