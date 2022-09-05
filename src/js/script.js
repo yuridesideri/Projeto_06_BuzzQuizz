@@ -570,21 +570,25 @@ const validateAnswerURLPair = () => {
 		for (let j = 0; j < answers.length; j++) {
 			const answer = answers[j];
 			const url = answer.nextElementSibling.nextElementSibling;
-			if (url === null)
-			{
-				return false;
-			}
-			const label = url.nextElementSibling;
-
+			if (url !== null)
+				{
+					label = url.nextElementSibling;
+				}
 			if (answer.value !== "" && url && !urlRegex.test(url.value)) {
-				label.textContent = 'Cada resposta deve conter uma URL correspondente.';
+				if (url !== null)
+				{
+					label.textContent = 'Cada resposta deve conter uma URL correspondente.';
+				}
 				url.classList.add("wrong-answer");
-				validation = true;
+				validation = false;
 			}
 			else if (!(answer.value !== "" && url && !urlRegex.test(url.value))) {
-				label.textContent = '';
-				url.classList.remove("wrong-answer");
-				validation = false;
+				if (url !== null)
+				{
+					label.textContent = '';
+					url.classList.remove("wrong-answer");
+				}
+				validation = true;
 			}
 		}
 	}
@@ -625,36 +629,48 @@ function validateLevels() {
 	const regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
 	const getLevelNodes = document.querySelectorAll(".level-body");
 	let trueValidations = 0;
+	// --------------Problem Function ---------------- //
+	function setWrong(el, text)
+	{
+		el.nextElementSibling.textContent = text;
+		el.classList.add('wrong-answer');
+	}
+
+
 	getLevelNodes.forEach((parentNode, ind) => {
 		//Getting each value (of each Level)
 		const nodeValues = {
 			title: parentNode.querySelector("input[placeholder='Título do nível']"),
 			percentage: parentNode.querySelector("input[placeholder='% de acerto mínima']"),
 			url: parentNode.querySelector("input[placeholder='URL da imagem do nível']"),
-			description: parentNode.querySelector("input[placeholder='URL da imagem do nível']"),
+			description: parentNode.querySelector("input[placeholder='Descrição do nível']"),
 		};
+
 		//-----------------------Resetting Values-------------------------//
+		Object.values(nodeValues).forEach(el => {el.nextElementSibling.textContent = ''; el.classList.remove('wrong-answer')})
+
 
 		//----------------------Checking each value-----------------------//
 		//Título do nível: mínimo de 10 caracteres
-		nodeValues.title.value.length >= 10 ? trueValidations++ : alert(`Título do Nível ${ind} com problema`);
+		nodeValues.title.value.length >= 10 ? trueValidations++ : setWrong(nodeValues.title, `Título do Nível ${ind+1} deve ter no mínimo 10 caracteres`);
 
 		//% de acerto mínima: um número entre 0 e 100
-		nodeValues.percentage.value <= 100 && nodeValues.percentage.value >= 0 ? trueValidations++ : alert(`% de acerto do nível ${ind} está com problemas`);
+		nodeValues.percentage.value <= 100 && nodeValues.percentage.value >= 0 && nodeValues.percentage.value !== "" ? trueValidations++ : setWrong(nodeValues.percentage, `% de acerto do nível ${ind+1} deve estar entre 0 e 100`);
 
 		//URL da imagem do nível: deve ter formato de URL
-		regex.test(nodeValues.url.value) ? trueValidations++ : alert(`Url do nível ${ind} não é válido`);
+		regex.test(nodeValues.url.value) ? trueValidations++ : setWrong(nodeValues.url, `Url do nível ${ind+1} não é válido`);
 
 		//Descrição do nível: mínimo de 30 caracteres
-		nodeValues.description.length.value >= 30 ? trueValidations++ : alert(`A descrição do Nível ${ind} está inválida`);
+		nodeValues.description.value.length >= 30 ? trueValidations++ : setWrong(nodeValues.description, `A descrição do Nível ${ind+1} deve ter no mínimo 30 caracteres`);
 	});
 	//É obrigatório existir pelo menos 1 nível cuja % de acerto mínima seja 0%
 	for (let i = 0; i < getLevelNodes.length; i++) {
-		if (getLevelNodes[i].percentage.value === "0") {
+		let node = getLevelNodes[i].querySelector("input[placeholder='% de acerto mínima']");
+		if (node.value === "0") {
 			trueValidations++;
 			break;
 		} else if (i === getLevelNodes.length - 1) {
-			alert(`Pelo menos um nível deve ter a porcentagem 0`);
+			setWrong(getLevelNodes[0].querySelector("input[placeholder='% de acerto mínima']"),`Pelo menos um nível deve ter a porcentagem 0`);
 		}
 	}
 	return trueValidations === getLevelNodes.length * numOfQuestEachLevel + 1 ? true : false;
