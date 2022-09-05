@@ -1,4 +1,5 @@
 let allQuizzes = [];
+let allQuizzesToDisplay = [];
 let myQuizzes = [];
 let quizzTitle = "";
 let quizzImage = "";
@@ -16,9 +17,23 @@ let quizzInGame = {
 const url = "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes";
 
 callLocalStorage();
-getAllQuizzes();
 renderMyQuizzes();
+getAllQuizzes();
 document.querySelector(".basic-info-button").onclick = goToFormQuestions;
+
+function equalID(quizz) {
+	let nfalse = 0;
+	if (myQuizzes.length === 0) {
+		return true;
+	} else {
+		for (let i = 0; i < myQuizzes.length; i++) {
+			if (quizz.id === myQuizzes[i].id) {
+				nfalse++;
+			}
+		}
+	}
+	return (nfalse === 0 ? true : false);
+}
 
 function getAllQuizzes() {
 	const promisse = axios.get(`${url}`);
@@ -27,18 +42,19 @@ function getAllQuizzes() {
 
 function renderAllQuizzes(data) {
 	allQuizzes = data.data;
+	allQuizzesToDisplay = allQuizzes.filter(equalID);
 
 	document.querySelector(".loading-all-quizzes-wrapper").classList.add("hidden");
 
 	const quizzes = document.querySelector(".all-quizzes__quizz-list");
 	quizzes.innerHTML = "";
 
-	for (let i = 0; i < allQuizzes.length; i++) {
+	for (let i = 0; i < allQuizzesToDisplay.length; i++) {
 		quizzes.innerHTML += `
-			<article onclick="enterQuizz(${allQuizzes[i].id})" class="quizz-list__quizz" data-identifier="quizz-card">
-				<img src="${allQuizzes[i].image}" alt="">
+			<article onclick="enterQuizz(${allQuizzesToDisplay[i].id})" class="quizz-list__quizz" data-identifier="quizz-card">
+				<img src="${allQuizzesToDisplay[i].image}" alt="">
 				<div class="quizz-list__quizz__gradient"></div>
-				<span>${allQuizzes[i].title}</span>
+				<span>${allQuizzesToDisplay[i].title}</span>
 			</article>
 		`;
 	}
