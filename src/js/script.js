@@ -342,14 +342,22 @@ function getBasicInfo() {
 
 	quizzTitle = answers.querySelector("#basic-title").value;
 	quizzImage = answers.querySelector("#basic-img").value;
-	quizzNumQuestions = parseInt(answers.querySelector("#basic-questions").value);
-	quizzNumLevels = parseInt(answers.querySelector("#basic-levels").value);
+	quizzNumQuestions = answers.querySelector("#basic-questions").value;
+	quizzNumLevels = answers.querySelector("#basic-levels").value;
+
+	if (quizzNumQuestions === "") {
+		quizzNumQuestions = 0
+	}
+
+	if (quizzNumLevels === "") {
+		quizzNumLevels = 0
+	}
 
 	const info = {
 		title: quizzTitle,
 		image: quizzImage,
-		questions: quizzNumQuestions,
-		levels: quizzNumLevels,
+		questions: parseInt(quizzNumQuestions),
+		levels: parseInt(quizzNumLevels),
 	};
 
 	return info;
@@ -379,7 +387,7 @@ const validateImageUrl = (string) => {
 };
 
 const validateNumberQuestions = (questions) => {
-	if (questions < 3) {
+	if (questions < 3 || questions === "") {
 		alert("O número de questões deve ser maior ou igual a 3");
 		return false;
 	} else {
@@ -388,7 +396,7 @@ const validateNumberQuestions = (questions) => {
 };
 
 const validateNumberLevels = (levels) => {
-	if (levels < 2) {
+	if (levels < 2 || levels === "") {
 		alert("O número de níveis deve ser maior ou igual a 2");
 		return false;
 	} else {
