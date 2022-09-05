@@ -369,15 +369,15 @@ const validateQuizTitle = (title) => {
 	const label = document.querySelector('label[for="basic-title"]');	
 
 	if (title.length < 20) {
-		input.classList.add("wrong-answer");
+		input.classList.add("wrong-background");
 		label.textContent = error.titleMin;
 		return false;
 	} else if (title.length > 65) {
-		input.classList.add("wrong-answer");
+		input.classList.add("wrong-background");
 		label.textContent = error.titleMax;
 		return false;
 	} else {
-		input.classList.remove("wrong-answer");
+		input.classList.remove("wrong-background");
 		label.textContent = "";
 		return true;
 	}
@@ -391,10 +391,10 @@ const validateImageUrl = (string) => {
 
 	if (!regex.test(string)) {
 		label.textContent = error.url;
-		input.classList.add("wrong-answer");
+		input.classList.add("wrong-background");
 		return false;
 	} else {
-		input.classList.remove("wrong-answer");
+		input.classList.remove("wrong-background");
 		label.textContent = "";
 		return true;
 	}
@@ -407,10 +407,10 @@ const validateNumberQuestions = (questions) => {
 
 	if (questions < 3 || questions === "") {
 		label.textContent = error.questions;
-		input.classList.add("wrong-answer");
+		input.classList.add("wrong-background");
 		return false;
 	} else {
-		input.classList.remove("wrong-answer");
+		input.classList.remove("wrong-background");
 		label.textContent = "";
 		return true;
 	}
@@ -423,10 +423,10 @@ const validateNumberLevels = (levels) => {
 
 	if (levels < 2 || levels === "") {
 		label.textContent = error.levels;
-		input.classList.add("wrong-answer");
+		input.classList.add("wrong-background");
 		return false;
 	} else {
-		input.classList.remove("wrong-answer");
+		input.classList.remove("wrong-background");
 		label.textContent = "";
 		return true;
 	}
@@ -459,19 +459,19 @@ const validateQuestionText = () => {
 
 		if (text.length === 0) {
 			label.textContent = error.questionMinChar;
-			question.classList.add("wrong-answer");
+			question.classList.add("wrong-background");
 			validation = false;
 		} else if (text.length < 20) {
 			label.textContent = error.questionMinChar;
-			question.classList.add("wrong-answer");
+			question.classList.add("wrong-background");
 			validation = false;
 		} else if (!(text.length < 20)) {
 			label.textContent = '';
-			question.classList.remove("wrong-answer");
+			question.classList.remove("wrong-background");
 			validation = true;
 		} else if (!(text.length === 0)) {
 			label.textContent = '';
-			question.classList.remove("wrong-answer");
+			question.classList.remove("wrong-background");
 			validation = true;
 		}
 	}
@@ -506,12 +506,12 @@ const validateCorrectAnswer = () => {
 
 		if (answer.value.length === 0) {
 			label.textContent = error.answersQuantity;
-			answer.classList.add("wrong-answer");
+			answer.classList.add("wrong-background");
 			validation = false;
 		}
 		else {
 			label.textContent = '';
-			answer.classList.remove("wrong-answer");
+			answer.classList.remove("wrong-background");
 			validation = true;
 		}
 	}
@@ -529,12 +529,12 @@ const validateIncorrectAnswer = () => {
 		let label = labels[i];
 		if (answer.value.length === 0) {
 			label.textContent = error.answersQuantity;
-			answer.classList.add("wrong-answer");
+			answer.classList.add("wrong-background");
 			validation = false;
 		}
 		else if (!(answer.value.length === 0)) {
 			label.textContent = '';
-			answer.classList.remove("wrong-answer");
+			answer.classList.remove("wrong-background");
 			validation = true;
 		}
 	}
@@ -579,14 +579,14 @@ const validateAnswerURLPair = () => {
 				{
 					label.textContent = 'Cada resposta deve conter uma URL correspondente.';
 				}
-				url.classList.add("wrong-answer");
+				url.classList.add("wrong-background");
 				validation = false;
 			}
 			else if (!(answer.value !== "" && url && !urlRegex.test(url.value))) {
 				if (url !== null)
 				{
 					label.textContent = '';
-					url.classList.remove("wrong-answer");
+					url.classList.remove("wrong-background");
 				}
 				validation = true;
 			}
@@ -632,7 +632,7 @@ function validateLevels() {
 	function setWrong(el, text)
 	{
 		el.nextElementSibling.textContent = text;
-		el.classList.add('wrong-answer');
+		el.classList.add('wrong-background');
 	}
 
 
@@ -644,7 +644,7 @@ function validateLevels() {
 			description: parentNode.querySelector("input[placeholder='Descrição do nível']"),
 		};
 
-		Object.values(nodeValues).forEach(el => {el.nextElementSibling.textContent = ''; el.classList.remove('wrong-answer')})
+		Object.values(nodeValues).forEach(el => {el.nextElementSibling.textContent = ''; el.classList.remove('wrong-background')})
 
 
 		nodeValues.title.value.length >= 10 ? trueValidations++ : setWrong(nodeValues.title, `Título do Nível ${ind+1} deve ter no mínimo 10 caracteres`);

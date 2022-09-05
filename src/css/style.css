@@ -600,6 +600,10 @@ label {
 .wrong-answer {
 	background-color: #ffffff;
 }
+
+.wrong-background {
+	background-color: #ffe9e9;
+}
 /* ---------------------------- CLASS HIDDEN ---------------------------- */
 
 .hidden {
