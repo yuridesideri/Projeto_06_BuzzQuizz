@@ -604,17 +604,17 @@ const validateFormQuestions = () => {
 
 const validationMessages = () => {
 	const errorMessages = {
-		//Baisc Info
+
 		titleMin: "O título deve ter pelo menos 20 caracteres",
 		titleMax: "O título pode ter no máximo 65 caracteres",
 		url: "O endereço da imagem deve ser uma URL",
 		questions: "O número de questões deve ser maior ou igual a 3",
 		levels: "O número de níveis deve ser maior ou igual a 2",
-		//Answers formulation
+
 		answersTitle: "Texto das respostas não pode estar vazio",
 		questionMinChar: "Texto da pergunta deve ter no mínimo 20 caracteres",
 		answersQuantity: "É obrigatória a inserção da resposta correta e de pelo menos 1 resposta errada.",
-		//Levels formulation
+
 		levelTitleMin:	"Título do nível deve ter no mínimo 10 caracteres",
 		percentage: "% de acerto deve ser um número entre 0 e 100",
 		levelDesc: "Descrição do nível deve ter no mínimo 30 caracteres",
@@ -629,7 +629,6 @@ function validateLevels() {
 	const regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
 	const getLevelNodes = document.querySelectorAll(".level-body");
 	let trueValidations = 0;
-	// --------------Problem Function ---------------- //
 	function setWrong(el, text)
 	{
 		el.nextElementSibling.textContent = text;
@@ -638,7 +637,6 @@ function validateLevels() {
 
 
 	getLevelNodes.forEach((parentNode, ind) => {
-		//Getting each value (of each Level)
 		const nodeValues = {
 			title: parentNode.querySelector("input[placeholder='Título do nível']"),
 			percentage: parentNode.querySelector("input[placeholder='% de acerto mínima']"),
@@ -646,24 +644,17 @@ function validateLevels() {
 			description: parentNode.querySelector("input[placeholder='Descrição do nível']"),
 		};
 
-		//-----------------------Resetting Values-------------------------//
 		Object.values(nodeValues).forEach(el => {el.nextElementSibling.textContent = ''; el.classList.remove('wrong-answer')})
 
 
-		//----------------------Checking each value-----------------------//
-		//Título do nível: mínimo de 10 caracteres
 		nodeValues.title.value.length >= 10 ? trueValidations++ : setWrong(nodeValues.title, `Título do Nível ${ind+1} deve ter no mínimo 10 caracteres`);
 
-		//% de acerto mínima: um número entre 0 e 100
 		nodeValues.percentage.value <= 100 && nodeValues.percentage.value >= 0 && nodeValues.percentage.value !== "" ? trueValidations++ : setWrong(nodeValues.percentage, `% de acerto do nível ${ind+1} deve estar entre 0 e 100`);
 
-		//URL da imagem do nível: deve ter formato de URL
 		regex.test(nodeValues.url.value) ? trueValidations++ : setWrong(nodeValues.url, `Url do nível ${ind+1} não é válido`);
 
-		//Descrição do nível: mínimo de 30 caracteres
 		nodeValues.description.value.length >= 30 ? trueValidations++ : setWrong(nodeValues.description, `A descrição do Nível ${ind+1} deve ter no mínimo 30 caracteres`);
 	});
-	//É obrigatório existir pelo menos 1 nível cuja % de acerto mínima seja 0%
 	for (let i = 0; i < getLevelNodes.length; i++) {
 		let node = getLevelNodes[i].querySelector("input[placeholder='% de acerto mínima']");
 		if (node.value === "0") {
