@@ -68,14 +68,14 @@ function renderMyQuizzes() {
 		quizzes.innerHTML = "";
 		for (let i = 0; i < myQuizzes.length; i++) {
 			quizzes.innerHTML += `
-      <article onclick="enterQuizz(${myQuizzes[i].id})" class="quizz-list__quizz" data-identifier="quizz-card">
+      <article class="quizz-list__quizz" data-identifier="quizz-card">
         <img src="${myQuizzes[i].image}" alt="">
-        <div class="quizz-list__quizz__gradient"></div>
-        <span>${myQuizzes[i].title}</span>
+        <div onclick="enterQuizz(${myQuizzes[i].id})" class="quizz-list__quizz__gradient"></div>
+        <span onclick="enterQuizz(${myQuizzes[i].id})">${myQuizzes[i].title}</span>
 				<div class="edit-delete">
-				<ion-icon onclick="editQuizz(${myQuizzes[i].id})" name="create-outline"></ion-icon>
-				<ion-icon onclick="deleteQuizz(${myQuizzes[i].id})" name="trash-outline"></ion-icon>
-			</div>
+					<ion-icon onclick="editQuizz(${myQuizzes[i].id})" name="create-outline"></ion-icon>
+					<ion-icon onclick="deleteQuizz(${myQuizzes[i].id})" name="trash-outline"></ion-icon>
+				</div>
       </article>
       `;
 		}
