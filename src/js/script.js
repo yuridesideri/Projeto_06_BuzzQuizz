@@ -118,8 +118,8 @@ function gettingBasicInfo() {
 	renderQuestions(quizzNumQuestions);
 	renderLevels(quizzNumLevels);
 
-	document.querySelector(".questions-button").onclick = goToFormLevels;
-	document.querySelector(".submit-button").onclick = goToSucessPageForm;
+	document.querySelector(".questions-button").onclick = () => {goToFormLevels()};
+	document.querySelector(".submit-button").onclick = () => {goToSucessPageForm()};
 }
 
 function renderQuestions(numQuestions) {
@@ -205,7 +205,7 @@ function renderQuestions(numQuestions) {
           <label for="incorrect-answer-1"></label>
 
           <input type="url" id="incorret-image-1" name="incorrect-image-1" placeholder="URL da imagem 1" class="answers-image question-body__answer">
-		  		<label for="incorrect-image-1"></label>
+			<label for="incorrect-image-1"></label>
 
           <input type="text" id="incorrect-answer-2" name="incorrect-answer-2" placeholder="Resposta incorreta 2" class="incorrect-answers question-body__answer">
           <label for="incorrect-answer-2"></label>
@@ -448,22 +448,34 @@ const validateBasicInfo = () => {
 };
 
 const validateQuestionText = () => {
+	const error = validationMessages();
 	const questions = document.querySelectorAll("input[name=question-text]");
-
+	const labels = document.querySelectorAll('label[for="question-text"]');
+	let validation = true;
 	for (let i = 0; i < questions.length; i++) {
 		let question = questions[i];
+		let label = labels[i];
 		let text = question.value;
 
 		if (text.length === 0) {
-			alert("O texto das perguntas não pode ficar em branco");
-			return false;
+			label.textContent = error.questionMinChar;
+			question.classList.add("wrong-answer");
+			validation = false;
 		} else if (text.length < 20) {
-			alert("O texto da pergunta deve ter pelo menos 20 caracteres");
-			return false;
+			label.textContent = error.questionMinChar;
+			question.classList.add("wrong-answer");
+			validation = false;
+		} else if (!(text.length < 20)) {
+			label.textContent = '';
+			question.classList.remove("wrong-answer");
+			validation = true;
+		} else if (!(text.length === 0)) {
+			label.textContent = '';
+			question.classList.remove("wrong-answer");
+			validation = true;
 		}
 	}
-
-	return true;
+	return validation;
 };
 
 const validateQuestionBackground = () => {
@@ -484,38 +496,50 @@ const validateQuestionBackground = () => {
 };
 
 const validateCorrectAnswer = () => {
+	const error = validationMessages();
 	const answers = document.querySelectorAll("input[name=question-correct-answer]");
-
-	if (answers.length === 0) {
-		alert("Cada pergunta tem que ter pelo menos uma resposta correta");
-		return false;
-	}
-
+	const labels = document.querySelectorAll('label[for="correct-answer"]');
+	let validation = true;
 	for (let i = 0; i < answers.length; i++) {
-		let answer = answers[i].value;
+		let answer = answers[i];
+		let label = labels[i];
 
-		if (answer.length === 0) {
-			alert("Cada pergunta tem que ter pelo menos uma resposta correta");
-			return false;
+		if (answer.value.length === 0) {
+			label.textContent = error.answersQuantity;
+			answer.classList.add("wrong-answer");
+			validation = false;
+		}
+		else {
+			label.textContent = '';
+			answer.classList.remove("wrong-answer");
+			validation = true;
 		}
 	}
 
-	return true;
+	return validation;
 };
 
 const validateIncorrectAnswer = () => {
 	const answers = document.querySelectorAll("input[name=incorrect-answer-1]");
-
+	const error = validationMessages();
+	const labels = document.querySelectorAll('label[for="incorrect-answer-1"]');
+	let validation = true;
 	for (let i = 0; i < answers.length; i++) {
-		let answer = answers[i].value;
-
-		if (answer.length === 0) {
-			alert("Cada pergunta deve ter pelo menos uma resposta incorreta");
-			return false;
+		let answer = answers[i];
+		let label = labels[i];
+		if (answer.value.length === 0) {
+			label.textContent = error.answersQuantity;
+			answer.classList.add("wrong-answer");
+			validation = false;
+		}
+		else if (!(answer.value.length === 0)) {
+			label.textContent = '';
+			answer.classList.remove("wrong-answer");
+			validation = true;
 		}
 	}
 
-	return true;
+	return validation;
 };
 
 const validateAnswersImages = () => {
@@ -546,10 +570,21 @@ const validateAnswerURLPair = () => {
 		for (let j = 0; j < answers.length; j++) {
 			const answer = answers[j];
 			const url = answer.nextElementSibling.nextElementSibling;
+			if (url === null)
+			{
+				return false;
+			}
+			const label = url.nextElementSibling;
 
 			if (answer.value !== "" && url && !urlRegex.test(url.value)) {
-				alert("Cada resposta deve conter uma URL correspondente.");
-				return false;
+				label.textContent = 'Cada resposta deve conter uma URL correspondente.';
+				url.classList.add("wrong-answer");
+				validation = true;
+			}
+			else if (!(answer.value !== "" && url && !urlRegex.test(url.value))) {
+				label.textContent = '';
+				url.classList.remove("wrong-answer");
+				validation = false;
 			}
 		}
 	}
@@ -557,18 +592,29 @@ const validateAnswerURLPair = () => {
 };
 
 const validateFormQuestions = () => {
-	if (validateQuestionText() === true && validateCorrectAnswer() === true && validateIncorrectAnswer() === true && validateAnswersImages() === true && validateAnswerURLPair() === true) {
+	let first = validateQuestionText(), second = validateCorrectAnswer(), third = validateIncorrectAnswer(), fourth = validateAnswersImages(), fifth = validateAnswerURLPair();
+	if (first === true && second === true && third === true && fourth === true && fifth === true) {
 		return true;
 	}
 };
 
 const validationMessages = () => {
 	const errorMessages = {
+		//Baisc Info
 		titleMin: "O título deve ter pelo menos 20 caracteres",
 		titleMax: "O título pode ter no máximo 65 caracteres",
 		url: "O endereço da imagem deve ser uma URL",
 		questions: "O número de questões deve ser maior ou igual a 3",
 		levels: "O número de níveis deve ser maior ou igual a 2",
+		//Answers formulation
+		answersTitle: "Texto das respostas não pode estar vazio",
+		questionMinChar: "Texto da pergunta deve ter no mínimo 20 caracteres",
+		answersQuantity: "É obrigatória a inserção da resposta correta e de pelo menos 1 resposta errada.",
+		//Levels formulation
+		levelTitleMin:	"Título do nível deve ter no mínimo 10 caracteres",
+		percentage: "% de acerto deve ser um número entre 0 e 100",
+		levelDesc: "Descrição do nível deve ter no mínimo 30 caracteres",
+		minPercentage: "É obrigatório existir pelo menos 1 nível cujar % de acerto mínima seja 0%"
 	}
 
 	return errorMessages;
@@ -581,28 +627,30 @@ function validateLevels() {
 	let trueValidations = 0;
 	getLevelNodes.forEach((parentNode, ind) => {
 		//Getting each value (of each Level)
-		const values = {
-			title: parentNode.querySelector("input[placeholder='Título do nível']").value,
-			percentage: parentNode.querySelector("input[placeholder='% de acerto mínima']").value,
-			url: parentNode.querySelector("input[placeholder='URL da imagem do nível']").value,
-			description: parentNode.querySelector("input[placeholder='URL da imagem do nível']").value,
+		const nodeValues = {
+			title: parentNode.querySelector("input[placeholder='Título do nível']"),
+			percentage: parentNode.querySelector("input[placeholder='% de acerto mínima']"),
+			url: parentNode.querySelector("input[placeholder='URL da imagem do nível']"),
+			description: parentNode.querySelector("input[placeholder='URL da imagem do nível']"),
 		};
+		//-----------------------Resetting Values-------------------------//
+
 		//----------------------Checking each value-----------------------//
 		//Título do nível: mínimo de 10 caracteres
-		values.title.length >= 10 ? trueValidations++ : alert(`Título do Nível ${ind} com problema`);
+		nodeValues.title.value.length >= 10 ? trueValidations++ : alert(`Título do Nível ${ind} com problema`);
 
 		//% de acerto mínima: um número entre 0 e 100
-		values.percentage <= 100 && values.percentage >= 0 ? trueValidations++ : alert(`% de acerto do nível ${ind} está com problemas`);
+		nodeValues.percentage.value <= 100 && nodeValues.percentage.value >= 0 ? trueValidations++ : alert(`% de acerto do nível ${ind} está com problemas`);
 
 		//URL da imagem do nível: deve ter formato de URL
-		regex.test(values.url) ? trueValidations++ : alert(`Url do nível ${ind} não é válido`);
+		regex.test(nodeValues.url.value) ? trueValidations++ : alert(`Url do nível ${ind} não é válido`);
 
 		//Descrição do nível: mínimo de 30 caracteres
-		values.description.length >= 30 ? trueValidations++ : alert(`A descrição do Nível ${ind} está inválida`);
+		nodeValues.description.length.value >= 30 ? trueValidations++ : alert(`A descrição do Nível ${ind} está inválida`);
 	});
 	//É obrigatório existir pelo menos 1 nível cuja % de acerto mínima seja 0%
 	for (let i = 0; i < getLevelNodes.length; i++) {
-		if (getLevelNodes[i].querySelector("input[placeholder='% de acerto mínima']").value === "0") {
+		if (getLevelNodes[i].percentage.value === "0") {
 			trueValidations++;
 			break;
 		} else if (i === getLevelNodes.length - 1) {
