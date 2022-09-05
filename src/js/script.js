@@ -364,42 +364,70 @@ function getBasicInfo() {
 }
 
 const validateQuizTitle = (title) => {
+	const error = validationMessages();
+	const input = document.querySelector("#basic-title");
+	const label = document.querySelector('label[for="basic-title"]');	
+
 	if (title.length < 20) {
-		alert("O título deve ter pelo menos 20 caracteres!");
+		input.classList.add("wrong-answer");
+		label.textContent = error.titleMin;
 		return false;
 	} else if (title.length > 65) {
-		alert("O título pode ter no máximo 65 caracteres!");
+		input.classList.add("wrong-answer");
+		label.textContent = error.titleMax;
 		return false;
 	} else {
+		input.classList.remove("wrong-answer");
+		label.textContent = "";
 		return true;
 	}
 };
 
 const validateImageUrl = (string) => {
+	const error = validationMessages();
+	const input = document.querySelector("#basic-img");
+	const label = document.querySelector('label[for="basic-img"]');	
 	const regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
 
 	if (!regex.test(string)) {
-		alert("O endereço da imagem deve ser uma URL");
+		label.textContent = error.url;
+		input.classList.add("wrong-answer");
 		return false;
 	} else {
+		input.classList.remove("wrong-answer");
+		label.textContent = "";
 		return true;
 	}
 };
 
 const validateNumberQuestions = (questions) => {
+	const error = validationMessages();
+	const input = document.querySelector("#basic-questions");
+	const label = document.querySelector('label[for="basic-questions"]');
+
 	if (questions < 3 || questions === "") {
-		alert("O número de questões deve ser maior ou igual a 3");
+		label.textContent = error.questions;
+		input.classList.add("wrong-answer");
 		return false;
 	} else {
+		input.classList.remove("wrong-answer");
+		label.textContent = "";
 		return true;
 	}
 };
 
 const validateNumberLevels = (levels) => {
+	const error = validationMessages();
+	const input = document.querySelector("#basic-levels");
+	const label = document.querySelector('label[for="basic-levels"]');
+
 	if (levels < 2 || levels === "") {
-		alert("O número de níveis deve ser maior ou igual a 2");
+		label.textContent = error.levels;
+		input.classList.add("wrong-answer");
 		return false;
 	} else {
+		input.classList.remove("wrong-answer");
+		label.textContent = "";
 		return true;
 	}
 };
@@ -533,6 +561,18 @@ const validateFormQuestions = () => {
 		return true;
 	}
 };
+
+const validationMessages = () => {
+	const errorMessages = {
+		titleMin: "O título deve ter pelo menos 20 caracteres",
+		titleMax: "O título pode ter no máximo 65 caracteres",
+		url: "O endereço da imagem deve ser uma URL",
+		questions: "O número de questões deve ser maior ou igual a 3",
+		levels: "O número de níveis deve ser maior ou igual a 2",
+	}
+
+	return errorMessages;
+}
 
 function validateLevels() {
 	const numOfQuestEachLevel = 4;

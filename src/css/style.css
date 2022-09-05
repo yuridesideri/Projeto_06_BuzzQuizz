@@ -452,12 +452,6 @@ header h1 {
 	border-radius: 5px;
 }
 
-.creation-screen label {
-	font-size: 19px;
-	font-style: italic;
-	color: #bababa;
-}
-
 .creation-screen input::placeholder {
 	font-size: 19px;
 	font-style: italic;
@@ -590,6 +584,15 @@ header h1 {
 	border: none;
 }
 
+label {
+	font-size: 16px;
+	color: #ec362d;
+	margin-bottom: 17px;
+}
+
+.wrong-answer {
+	background-color: #ffe9e9;
+}
 /* ---------------------------- CLASS HIDDEN ---------------------------- */
 
 .hidden {
