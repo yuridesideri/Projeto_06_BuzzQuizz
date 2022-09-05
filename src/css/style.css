@@ -452,6 +452,13 @@ header h1 {
 	border-radius: 5px;
 }
 
+.color-picker label {
+	font-size: 19px;
+	font-style: italic;
+	color: #bababa;
+	margin-bottom: 0;
+}
+
 .creation-screen input::placeholder {
 	font-size: 19px;
 	font-style: italic;
